@@ -1,92 +1,128 @@
 package com.demo.eatapp.establishment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EstablishmentModel {
 
+
+
+	@JsonProperty("FHRSID")
 	private int id;
-    private String BusinessName;
-    private String BusinessType;
-    private int BusinessTypeID;
-    private String AddressLine1;
-    private String AddressLine2;
-    private String AddressLine3;
-    private String AddressLine4;
-    private String PostCode;
-    private String Phone;
-    private int RatingValue;
+	@JsonProperty("BusinessName")
+	private String businessName;
+	@JsonProperty("BusinessType")
+    private String businessType;
+	@JsonProperty("BusinessTypeID")
+    private int businessTypeID;
+	@JsonProperty("AddressLine1")
+    private String addressLine1;
+	@JsonProperty("AddressLine2")
+    private String addressLine2;
+	@JsonProperty("AddressLine3")
+    private String addressLine3;
+	@JsonProperty("AddressLine4")
+    private String addressLine4;
+	@JsonProperty("PostCode")
+    private String postcode;
+	@JsonProperty("Phone")
+    private String phone;
+	@JsonProperty("RatingValue")
+    private int ratingValue;
 
     public EstablishmentModel() {
     	
     }
-    
-    public int getId() {
+
+	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getBusinessName() {
-		return BusinessName;
+		return businessName;
 	}
+
 	public void setBusinessName(String businessName) {
-		BusinessName = businessName;
+		this.businessName = businessName;
 	}
+
 	public String getBusinessType() {
-		return BusinessType;
+		return businessType;
 	}
+
 	public void setBusinessType(String businessType) {
-		BusinessType = businessType;
+		this.businessType = businessType;
 	}
+
 	public int getBusinessTypeID() {
-		return BusinessTypeID;
+		return businessTypeID;
 	}
+
 	public void setBusinessTypeID(int businessTypeID) {
-		BusinessTypeID = businessTypeID;
+		this.businessTypeID = businessTypeID;
 	}
+
 	public String getAddressLine1() {
-		return AddressLine1;
+		return addressLine1;
 	}
+
 	public void setAddressLine1(String addressLine1) {
-		AddressLine1 = addressLine1;
+		this.addressLine1 = addressLine1;
 	}
+
 	public String getAddressLine2() {
-		return AddressLine2;
+		return addressLine2;
 	}
+
 	public void setAddressLine2(String addressLine2) {
-		AddressLine2 = addressLine2;
+		this.addressLine2 = addressLine2;
 	}
+
 	public String getAddressLine3() {
-		return AddressLine3;
+		return addressLine3;
 	}
+
 	public void setAddressLine3(String addressLine3) {
-		AddressLine3 = addressLine3;
+		this.addressLine3 = addressLine3;
 	}
+
 	public String getAddressLine4() {
-		return AddressLine4;
+		return addressLine4;
 	}
+
 	public void setAddressLine4(String addressLine4) {
-		AddressLine4 = addressLine4;
+		this.addressLine4 = addressLine4;
 	}
-	public String getPostCode() {
-		return PostCode;
+
+	public String getPostcode() {
+		return postcode;
 	}
-	public void setPostCode(String postCode) {
-		PostCode = postCode;
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
 	}
+
 	public String getPhone() {
-		return Phone;
+		return phone;
 	}
+
 	public void setPhone(String phone) {
-		Phone = phone;
+		this.phone = phone;
 	}
+
 	public int getRatingValue() {
-		return RatingValue;
+		return ratingValue;
 	}
+
 	public void setRatingValue(int ratingValue) {
-		RatingValue = ratingValue;
+		this.ratingValue = ratingValue;
 	}
+    
 
     
     
