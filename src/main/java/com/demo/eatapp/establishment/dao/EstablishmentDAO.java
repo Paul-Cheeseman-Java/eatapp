@@ -12,6 +12,6 @@ public interface EstablishmentDAO {
 
 	public void addToList(Establishment est, String username);
 	
-	//public void removeFromList(Establishment est, String username);
+	public void removeFromList(int fhrsID, String username);
 	
 }

@@ -69,20 +69,13 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 
 	
 	
-	
-	
-	
-	
-	
-	/*
 
 	@Override
-	public void deleteCompany(int CompanyId) {
-		String sql = "DELETE FROM Company WHERE id=?";
-		jdbcTemplate.update(sql, CompanyId);
+	public void removeFromList(int fhrsID, String username) {
+		String sql = "DELETE FROM establishments WHERE fhrsID=? AND username='"+username+"'";
+		jdbcTemplate.update(sql, fhrsID);
 	}
 
-	*/
 	
 	
 	

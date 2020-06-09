@@ -3,6 +3,8 @@ package com.demo.eatapp.establishment.controller;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -65,7 +67,6 @@ public class EstablishmentController {
 	
 	@GetMapping("/list")
 	public void getList() {
-
 		List<Establishment> listOfEstablishment = establishmentDAO.getList("test");
 		//Maybe filter out anything but cafes, bars, restaurants - ie places you can sit down to eat/drink
 		int val = 0;
@@ -80,6 +81,13 @@ public class EstablishmentController {
 		
 	}
 	
-	
+
+	@GetMapping("/delete")
+	public void removeFromList(HttpServletRequest request) {
+		int recievedFhrsID = Integer.parseInt(request.getParameter("id"));
+		System.out.println("----- Deleting: " + recievedFhrsID + " ----------------");
+		establishmentDAO.removeFromList(recievedFhrsID, "test");
+	}
+
 
 }
