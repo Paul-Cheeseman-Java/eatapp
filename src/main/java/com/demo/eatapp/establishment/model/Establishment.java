@@ -150,12 +150,7 @@ public class Establishment {
 	}
 
 
-
 	public String getPhone() {
-		System.out.println("Phone test: '" + phone + "'");
-		if (phone == null) {
-			return "  ";
-		}
 		return phone;
 	}
 

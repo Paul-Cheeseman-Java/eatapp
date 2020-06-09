@@ -1,6 +1,7 @@
 package com.demo.eatapp.establishment.controller;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -29,12 +30,10 @@ public class EstablishmentController {
 		return builder.build();
 	}
 
-	@GetMapping("/test")
+	@GetMapping("/add")
 	public void index(RestTemplate restTemplate) {
-	
 		
 		HttpHeaders headers = new HttpHeaders();
-		//https://attacomsian.com/blog/spring-boot-resttemplate-get-request-parameters-headers
 		// set `Content-Type` and `Accept` headers
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -42,10 +41,7 @@ public class EstablishmentController {
 		// build the request
 		HttpEntity request = new HttpEntity(headers);
 		
-		System.out.println("Rest API hit");
-		// request url
-		//String url = "https://api.ratings.food.gov.uk/Establishments/909658";
-		
+		//Hardcoded URL for testing
 		String url = "https://api.ratings.food.gov.uk/Establishments?address=gu51 3ps";
 		
 		// make an HTTP GET request with headers
@@ -57,31 +53,33 @@ public class EstablishmentController {
 		);
 		//Maybe filter out anything but cafes, bars, restaurants - ie places you can sit down to eat/drink
 		for (Establishment est : response.getBody().getEstablishments()) {
-			System.out.println("---------------------------");
-			
-			est.setPhone("12345 67890");
-			
-			System.out.println("Class name: " + est.getClass());
+			System.out.println("----- Adding to List ----------------");
 			System.out.println("Establishment id: " + est.getFhrsID());
 			System.out.println("Establishment name: " + est.getName());
-			System.out.println("Establishment type: " + est.getType());
-			System.out.println("Establishment type id: " + est.getTypeID());
-			System.out.println("Address line 1: " + est.getAddressLine1());
-			System.out.println("Address line 2: " + est.getAddressLine2());
-			System.out.println("Address line 3: " + est.getAddressLine3());
-			System.out.println("Address line 4: " + est.getAddressLine4());
-			System.out.println("Postcode: " + est.getPostcode());
-			System.out.println("Phone: " + est.getPhone());
-			System.out.println("Rating Value: " + est.getRatingValue());
-			System.out.println("Rating Date: " + est.getRatingDate());
-			System.out.println("-   -   -   -   -   -   -  -");
-			System.out.println("Saving est-id: " + est.getFhrsID());
 			establishmentDAO.addToList(est, "test");
 			System.out.println("-   -   -   -   -   -   -  -");
 		}
 		
 	}
 
+	
+	@GetMapping("/list")
+	public void getList() {
+
+		List<Establishment> listOfEstablishment = establishmentDAO.getList("test");
+		//Maybe filter out anything but cafes, bars, restaurants - ie places you can sit down to eat/drink
+		int val = 0;
+		for (Establishment est : listOfEstablishment) {
+			val++;
+			System.out.println("----- List Ouput #" + val + " ----------------");
+			System.out.println("Establishment id: " + est.getFhrsID());
+			System.out.println("Establishment name: " + est.getName());
+			establishmentDAO.addToList(est, "test");
+			System.out.println("-   -   -   -   -   -   -  -");
+		}
+		
+	}
+	
 	
 
 }

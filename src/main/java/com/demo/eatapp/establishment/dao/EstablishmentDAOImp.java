@@ -35,14 +35,14 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 	
 	@Override
 	public List<Establishment> getList(String username){
-		String sql = "SELECT * FROM company WHERE username = '" + username + "'";
+		String sql = "SELECT * FROM establishments WHERE username = '" + username + "'";
 		List<Establishment> usersEstablishments = jdbcTemplate.query(sql, new RowMapper<Establishment>() {
 			public Establishment mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Establishment anEstablishment = new Establishment();
 				anEstablishment.setFhrsID(rs.getInt("fhrsID"));
-				anEstablishment.setName(rs.getString("establishmentName"));
-				anEstablishment.setType(rs.getString("establishmentType"));
-				anEstablishment.setTypeID(rs.getInt("establishmentTypeID"));
+				anEstablishment.setName(rs.getString("name"));
+				anEstablishment.setType(rs.getString("type"));
+				anEstablishment.setTypeID(rs.getInt("typeID"));
 				anEstablishment.setAddressLine1(rs.getString("addressLine1"));
 				anEstablishment.setAddressLine1(rs.getString("addressLine2"));
 				anEstablishment.setAddressLine1(rs.getString("addressLine3"));
@@ -61,7 +61,7 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 	
 	@Override
 	public void addToList(Establishment est, String username) {
-		String sql = "INSERT INTO establishment (username, fhrsID, name, type, typeID, addressLine1, addressLine2, addressLine3, "
+		String sql = "INSERT INTO establishments (username, fhrsID, name, type, typeID, addressLine1, addressLine2, addressLine3, "
 				+ "addressLine4, postcode, phone, ratingValue, ratingDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		jdbcTemplate.update(sql, username, est.getFhrsID(), est.getName(), est.getType(), est.getTypeID(), est.getAddressLine1(), est.getAddressLine2(), est.getAddressLine3(), 
 				 est.getAddressLine4(), est.getPostcode(), est.getPhone(), est.getRatingValue(), est.getRatingDate());
