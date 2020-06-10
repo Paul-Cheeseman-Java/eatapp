@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -21,11 +22,12 @@ import com.demo.eatapp.establishment.dao.EstablishmentDAO;
 import com.demo.eatapp.establishment.model.Establishment;
 import com.demo.eatapp.establishments.model.Establishments;
 
-@RestController
+@Controller
 public class EstablishmentController {
 
 	@Autowired
 	private EstablishmentDAO establishmentDAO;
+
 	
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {

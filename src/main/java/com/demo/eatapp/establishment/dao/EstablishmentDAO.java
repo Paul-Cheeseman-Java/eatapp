@@ -2,8 +2,9 @@ package com.demo.eatapp.establishment.dao;
 
 
 import java.util.List;
+
 import com.demo.eatapp.establishment.model.Establishment;
-import com.demo.eatapp.user.User;
+import com.demo.eatapp.user.model.User;
 
 
 public interface EstablishmentDAO {

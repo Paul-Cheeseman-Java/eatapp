@@ -68,8 +68,8 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 	}
 
 	
-	
-
+	//Maybe switch to using named params?
+	//https://stackoverflow.com/questions/37538913/how-to-delete-multiple-rows-with-jdbctemplate
 	@Override
 	public void removeFromList(int fhrsID, String username) {
 		String sql = "DELETE FROM establishments WHERE fhrsID=? AND username='"+username+"'";
