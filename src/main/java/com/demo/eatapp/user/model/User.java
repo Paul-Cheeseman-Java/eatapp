@@ -1,6 +1,8 @@
 package com.demo.eatapp.user.model;
 
-public class User {
+import org.springframework.hateoas.RepresentationModel;
+
+public class User extends RepresentationModel<User>{
 
 	private String username;
 	private String password;
