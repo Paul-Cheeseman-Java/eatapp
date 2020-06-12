@@ -1,5 +1,8 @@
 package com.demo.eatapp.user.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.hateoas.RepresentationModel;
 
 public class User extends RepresentationModel<User>{
@@ -10,12 +13,11 @@ public class User extends RepresentationModel<User>{
 	private String lastName;
 	private int age;
 	private String postcode;
-	private String phone;
 	
 	public User() {
 	}
 
-	public User(String username, String password, String firstName, String lastName, int age, String postcode, String phone) {
+	public User(String username, String password, String firstName, String lastName, int age, String postcode) {
 		//Role is always user
 		//id is not required as name is unique
 		this.username = username;
@@ -24,7 +26,6 @@ public class User extends RepresentationModel<User>{
 		this.lastName = lastName;
 		this.age = age;
 		this.postcode = postcode;
-		this.phone = phone;
 	}
 
 	public String getUsername() {
@@ -65,14 +66,6 @@ public class User extends RepresentationModel<User>{
 
 	public void setPostcode(String postcode) {
 		this.postcode = postcode;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 }

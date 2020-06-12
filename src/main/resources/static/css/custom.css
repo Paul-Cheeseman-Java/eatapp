@@ -1,0 +1,38 @@
+
+#events-hompage {
+  padding-top: 120px;
+}
+
+
+form{
+	color: white;
+}
+
+th{
+	color: white;
+}
+
+.table thead th{
+	color: white;
+}
+
+.table td, .table th {
+	color: white;
+}
+
+table{
+	margin-top: 20px;
+}
+
+.table th{
+	background: rgba(255,255,255,0.50);
+}
+
+.table td{
+	background: rgba(255,255,255,0.25);
+}
+
+.search-titles{
+	color: #ffb03b;
+	
+}

@@ -32,7 +32,6 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 	}
 
 	
-	
 	@Override
 	public List<Establishment> getList(String username){
 		String sql = "SELECT * FROM establishments WHERE username = '" + username + "'";
@@ -42,11 +41,11 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 				anEstablishment.setFhrsID(rs.getInt("fhrsID"));
 				anEstablishment.setName(rs.getString("name"));
 				anEstablishment.setType(rs.getString("type"));
-				anEstablishment.setTypeID(rs.getInt("typeID"));
+				anEstablishment.setTypeID(rs.getString("typeID"));
 				anEstablishment.setAddressLine1(rs.getString("addressLine1"));
-				anEstablishment.setAddressLine1(rs.getString("addressLine2"));
-				anEstablishment.setAddressLine1(rs.getString("addressLine3"));
-				anEstablishment.setAddressLine1(rs.getString("addressLine4"));
+				anEstablishment.setAddressLine2(rs.getString("addressLine2"));
+				anEstablishment.setAddressLine3(rs.getString("addressLine3"));
+				anEstablishment.setAddressLine4(rs.getString("addressLine4"));
 				anEstablishment.setPostcode(rs.getString("postcode"));
 				anEstablishment.setPhone(rs.getString("phone"));
 				anEstablishment.setRatingValue(rs.getInt("ratingValue"));

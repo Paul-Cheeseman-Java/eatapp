@@ -25,6 +25,7 @@ Eatapp is a
 _/users_ - A _GET_ request which returns a list of all of the applications user ids. 
     It provides HATEOAS links:
         - user details. 
+        - users establishment list.
             
 _/user{user-id\}_ - A _GET_ request which returns a specific users details. 
     It provides HATEOAS links

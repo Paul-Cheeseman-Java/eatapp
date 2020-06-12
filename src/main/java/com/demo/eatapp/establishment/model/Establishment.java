@@ -2,13 +2,15 @@ package com.demo.eatapp.establishment.model;
 
 import java.time.LocalDate;
 
+import org.springframework.hateoas.RepresentationModel;
+
+import com.demo.eatapp.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Establishment {
 
-
+public class Establishment extends RepresentationModel<Establishment>{
 
 	@JsonProperty("FHRSID")
 	private int fhrsID;
@@ -17,7 +19,7 @@ public class Establishment {
 	@JsonProperty("BusinessType")
     private String type;
 	@JsonProperty("BusinessTypeID")
-    private int TypeID;
+    private String TypeID;
 	@JsonProperty("AddressLine1")
     private String addressLine1;
 	@JsonProperty("AddressLine2")
@@ -79,13 +81,13 @@ public class Establishment {
 
 
 
-	public int getTypeID() {
+	public String getTypeID() {
 		return TypeID;
 	}
 
 
 
-	public void setTypeID(int typeID) {
+	public void setTypeID(String typeID) {
 		TypeID = typeID;
 	}
 

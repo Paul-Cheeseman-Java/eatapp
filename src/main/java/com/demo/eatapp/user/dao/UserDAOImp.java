@@ -43,7 +43,6 @@ public class UserDAOImp implements UserDAO {
 				user.setLastName(rs.getString("lastname"));
 				user.setAge(rs.getInt("age"));
 				user.setPostcode(rs.getString("postcode"));
-				user.setPhone(rs.getString("phone"));
 				return user;
 			}
 		});
@@ -66,7 +65,6 @@ public class UserDAOImp implements UserDAO {
 					user.setLastName(rs.getString("lastname"));
 					user.setAge(rs.getInt("age"));
 					user.setPostcode(rs.getString("postcode"));
-					user.setPhone(rs.getString("phone"));
 					return user;
 				}
 				return null;

@@ -16,4 +16,10 @@ public class IndexController {
 	      return "index";
 	   }
 	
+	   @RequestMapping("/homepage")
+	   public String homepage() {
+	      return "homepage";
+	   }
+	   
+	   
 }
