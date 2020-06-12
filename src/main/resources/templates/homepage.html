@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Delicious Bootstrap Template - Index</title>
+  <title>EatApp</title>
   <meta content="" name="descriptison">
   <meta content="" name="keywords">
 
@@ -72,19 +72,26 @@
       <div class="container">
 
             <h2 class="search-titles text-center">Find an Establishment</h2>
-            <form id="form" method="post">
+
+            <form th:action="@{/homepage}" th:object="${establishment}"  method="post">
                 <div class="form-row">
                     <div class="col-md-6 form-group">
                         <label>by Name</label>
-                        <input type="number" class="form-control">
+						<input type="text" th:field="*{name}" />
                     </div>
                     <div class="col-md-6 form-group">
                         <label>by Postcode</label>
-                        <input type="text" class="form-control">
+						<input type="text" th:field="*{postcode}" />
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
+
+
+
+
+
+
 
             <h2 class="search-titles text-center">Select Establishments to save</h2>
             <form id="form" method="post">

@@ -29,44 +29,6 @@ public class EstablishmentController {
 	private EstablishmentDAO establishmentDAO;
 
 	
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
-	}
-
-	@GetMapping("/add")
-	public void index(RestTemplate restTemplate) {
-		
-		HttpHeaders headers = new HttpHeaders();
-		// set `Content-Type` and `Accept` headers
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-		headers.set("x-api-version", "2");
-		// build the request
-		HttpEntity request = new HttpEntity(headers);
-		
-		//Hardcoded URL for testing
-		String url = "https://api.ratings.food.gov.uk/Establishments?address=gu51 3ps";
-		
-		// make an HTTP GET request with headers
-		ResponseEntity<Establishments> response = restTemplate.exchange(
-		        url,
-		        HttpMethod.GET,
-		        request,
-		        Establishments.class
-		);
-		//Maybe filter out anything but cafes, bars, restaurants - ie places you can sit down to eat/drink
-		for (Establishment est : response.getBody().getEstablishments()) {
-			System.out.println("----- Adding to List ----------------");
-			System.out.println("Establishment id: " + est.getFhrsID());
-			System.out.println("Establishment name: " + est.getName());
-			establishmentDAO.addToList(est, "test");
-			System.out.println("-   -   -   -   -   -   -  -");
-		}
-		
-	}
-
-	
 	@GetMapping("/list")
 	public void getList() {
 		List<Establishment> listOfEstablishment = establishmentDAO.getList("test");
