@@ -1,6 +1,7 @@
 package com.demo.eatapp.establishment.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -12,8 +13,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Establishment extends RepresentationModel<Establishment>{
 
+
 	@JsonProperty("FHRSID")
-	private int fhrsID;
+	private String fhrsID;
 	@JsonProperty("BusinessName")
 	private String name;
 	@JsonProperty("BusinessType")
@@ -33,11 +35,10 @@ public class Establishment extends RepresentationModel<Establishment>{
 	@JsonProperty("Phone")
     private String phone;
 	@JsonProperty("RatingValue")
-    private int ratingValue;
+    private String ratingValue;
 	@JsonProperty("RatingDate")
     private LocalDate ratingDate;
-	
-	
+    private boolean selected = false;
 
     public Establishment() {
     	
@@ -45,13 +46,13 @@ public class Establishment extends RepresentationModel<Establishment>{
 
 
 
-	public int getFhrsID() {
+	public String getFhrsID() {
 		return fhrsID;
 	}
 
 
 
-	public void setFhrsID(int fhrsID) {
+	public void setFhrsID(String fhrsID) {
 		this.fhrsID = fhrsID;
 	}
 
@@ -164,13 +165,13 @@ public class Establishment extends RepresentationModel<Establishment>{
 
 
 
-	public int getRatingValue() {
+	public String getRatingValue() {
 		return ratingValue;
 	}
 
 
 
-	public void setRatingValue(int ratingValue) {
+	public void setRatingValue(String ratingValue) {
 		this.ratingValue = ratingValue;
 	}
 
@@ -188,5 +189,15 @@ public class Establishment extends RepresentationModel<Establishment>{
 
 
 
+	public boolean isSelected() {
+		return selected;
+	}
 
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	
+	
 }

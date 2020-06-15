@@ -38,7 +38,7 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 		List<Establishment> usersEstablishments = jdbcTemplate.query(sql, new RowMapper<Establishment>() {
 			public Establishment mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Establishment anEstablishment = new Establishment();
-				anEstablishment.setFhrsID(rs.getInt("fhrsID"));
+				anEstablishment.setFhrsID(rs.getString("fhrsID"));
 				anEstablishment.setName(rs.getString("name"));
 				anEstablishment.setType(rs.getString("type"));
 				anEstablishment.setTypeID(rs.getString("typeID"));
@@ -48,7 +48,7 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 				anEstablishment.setAddressLine4(rs.getString("addressLine4"));
 				anEstablishment.setPostcode(rs.getString("postcode"));
 				anEstablishment.setPhone(rs.getString("phone"));
-				anEstablishment.setRatingValue(rs.getInt("ratingValue"));
+				anEstablishment.setRatingValue(rs.getString("ratingValue"));
 				anEstablishment.setRatingDate(LocalDate.parse(rs.getString("ratingDate")));
 				return anEstablishment;
 			}

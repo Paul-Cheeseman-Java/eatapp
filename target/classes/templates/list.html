@@ -71,27 +71,36 @@
     <section id="events-hompage" class="events">
       <div class="container">
 
-            <h2 class="search-titles text-center">Find an Establishment</h2>
+            <h2 class="search-titles text-center">Your List</h2>
 
-            <form th:action="@{/search}" th:object="${establishment}"  method="post">
-                <div class="form-row">
-                    <div class="col-md-6 form-group">
-                        <label>by Name</label>
-						<input type="text" th:field="*{name}" />
-                    </div>
-                    <div class="col-md-5 form-group">
-                        <label>by Postcode</label>
-						<input type="text" th:field="*{postcode}" />
-                    </div>
-                    <div class="col-md-1 form-group">
-		                <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </div>
+
+           <form th:action="@{/list}" th:object="${establishments}"  method="post">
+                <button type="submit" class="btn btn-primary">Save</button>
+  				<table class="table">
+  					<thead>
+    					<tr>
+      					<th scope="col">Selected</th>
+      					<th scope="col">Name</th>
+      					<th scope="col">Rating</th>
+      					<th scope="col">Postcode</th>
+      					<th scope="col">Phone</th>
+    					</tr>
+  					</thead>
+  					<tbody>
+						<tr th:each="establishment, itemStat : *{establishmentList}">
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].name'"  th:value="${establishment.name}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].ratingValue'"  th:value="${establishment.ratingValue}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].postcode'"  th:value="${establishment.postcode}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].phone'"  th:value="${establishment.phone}"/>
+							<td><input type="checkbox" th:field="*{establishmentList[__${itemStat.index}__].selected}" /></td>
+							<td th:text="${establishment.getName()}"></td>
+							<td th:text="${establishment.getRatingValue()}"></td>
+							<td th:text="${establishment.getPostcode()}"></td>  
+							<td th:text="${establishment.getPhone()}"></td>
+						</tr>
+  					</tbody>
+  				</table>
             </form>
-
-
-
-
 		</div>
     </section><!-- End Events Section -->
   </main><!-- End #main -->
