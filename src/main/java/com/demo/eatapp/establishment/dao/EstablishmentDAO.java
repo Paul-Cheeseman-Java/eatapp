@@ -13,6 +13,10 @@ public interface EstablishmentDAO {
 
 	public void addToList(Establishment est, String username);
 	
-	public void removeFromList(int fhrsID, String username);
+	public void removeFromList(Establishment est, String username);
+	
+	public boolean inUsersList(Establishment est, String username);
+	
+	public Establishment getEstablishment(int fhrsID, String username);
 	
 }

@@ -38,7 +38,7 @@ public class EstablishmentController {
 	   public void removeFromList(HttpServletRequest request) {
 		   int recievedFhrsID = Integer.parseInt(request.getParameter("id"));
 		   System.out.println("----- Deleting: " + recievedFhrsID + " ----------------");
-		   establishmentDAO.removeFromList(recievedFhrsID, "test");
+		   establishmentDAO.removeFromList(establishmentDAO.getEstablishment(recievedFhrsID, "test"), "test");
 	   }
 
 	
@@ -47,42 +47,35 @@ public class EstablishmentController {
 		   System.out.println("In Get");
 		   Establishments establishments = new Establishments(new ArrayList<Establishment>(establishmentDAO.getList("test")));
 		   for (Establishment est : establishments.getEstablishmentList()) {
-			   System.out.println("Controller Debug: " + est.getName());
+			   System.out.println("----------------------------------------");
+			   System.out.println("Get Controller Debug: " + est.getName());
+			   System.out.println("Get Controller Debug: " + est.getFhrsID());
+			   System.out.println("Get Controller Selected: " + est.isSelected());
 		   }
-		   //model.addAttribute("establishments", establishments.getEstablishments());
+		   
+		   //VARIABLE FOR TITLE - "PERSONAL LIST" (search would be "SEARCH RESULTS" (maybe note to say those in your list selected) 
 		   model.addAttribute("establishments", establishments);
 		   return "list";
 	   }
 	   
 	   
 	   
-	   
-	   
-	@PostMapping(value = "/list")
+	   @PostMapping(value = "/list")
 	   public String postList(@ModelAttribute("establishments") Establishments establishments, Model model) {
-		   System.out.println("Post /list hit");
-		   System.out.println("Returned list size: " +establishments.getEstablishmentList().size());
-		   
+		   System.out.println("Hit post");
 		   for (Establishment est : establishments.getEstablishmentList()) {
-			   System.out.println("Test Name: " +est.getName());
-			   System.out.println("Test Selected?: " +est.isSelected());
-			   System.out.println("Test Name: " +est.getPostcode());
-			   System.out.println("--------------------------------");
-		   }
-		   //System.out.println("Whats this? " +establishment.getName());
-		   /*
-		   @ModelAttribute Establishments establishments
-		   System.out.println("List size: " +establishments.getEstablishments().size());
-		   for(Establishment establishment : establishments.getEstablishments()) {
-			   System.out.println("Looping through: " +establishment.getName());
-			   if (establishment.isSelected()) {
-				   System.out.println("Selected: " +establishment.getName());
-				   establishments.getEstablishments().remove(establishment);
-				   System.out.println("After removal of: " +establishment.getName());
+		   //Get current list, if item in list, is it now not selected? If so remove
+		   //If item not in list and now selected, put it in
+			   if(establishmentDAO.inUsersList(est, "test")) {
+				   if(!est.isSelected()) {
+					   establishmentDAO.removeFromList(est, "test");
+				   }
+			   } else if (est.isSelected()) {
+				establishmentDAO.addToList(est, "test");
 			   }
-			   System.out.println("Outside IF for: " +establishment.getName());
 		   }
-		   */
+		   Establishments establishmentList = new Establishments(new ArrayList<Establishment>(establishmentDAO.getList("test")));
+		   model.addAttribute("establishments", establishmentList);
 		   return "list";
 	   }
 	
@@ -132,6 +125,7 @@ public class EstablishmentController {
 
 			Set<String> idCheck = new HashSet<String>();
 			for (Establishment est : establishmentDAO.getList("test")) {
+				
 				idCheck.add(est.getFhrsID());
 			}
 			
@@ -145,11 +139,7 @@ public class EstablishmentController {
 					System.out.println("Is Selected:" + est.getName());					
 				}
 			}
-		   
-			
 			model.addAttribute("establishments", apiEstList);
-			
-			
 		   return "list";
 	   }
 	

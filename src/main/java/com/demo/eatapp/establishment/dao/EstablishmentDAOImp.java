@@ -9,7 +9,9 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -50,6 +52,7 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 				anEstablishment.setPhone(rs.getString("phone"));
 				anEstablishment.setRatingValue(rs.getString("ratingValue"));
 				anEstablishment.setRatingDate(LocalDate.parse(rs.getString("ratingDate")));
+				anEstablishment.setSelected(true);
 				return anEstablishment;
 			}
 		});
@@ -70,11 +73,58 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 	//Maybe switch to using named params?
 	//https://stackoverflow.com/questions/37538913/how-to-delete-multiple-rows-with-jdbctemplate
 	@Override
-	public void removeFromList(int fhrsID, String username) {
+	public void removeFromList(Establishment est, String username) {
 		String sql = "DELETE FROM establishments WHERE fhrsID=? AND username='"+username+"'";
-		jdbcTemplate.update(sql, fhrsID);
+		jdbcTemplate.update(sql, est.getFhrsID());
 	}
 
+	
+	@Override
+	public boolean inUsersList(Establishment est, String username){
+		String sql = "SELECT * FROM establishments WHERE fhrsID="+est.getFhrsID() +" AND username='"+username+"'";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<Establishment>() {
+			@Override
+			public Establishment extractData(ResultSet rs) throws SQLException,	DataAccessException {
+				if (rs.next()) {
+					Establishment establishment = new Establishment();
+					establishment.setName(rs.getString("name"));
+					return establishment;
+				}
+				return null;
+			}
+		}) !=null;
+	}
+	
+	
+	@Override
+	public Establishment getEstablishment(int fhrsID, String username) {
+		String sql = "SELECT * FROM establishment WHERE id=" + fhrsID + " AND username='" +username+ "'";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<Establishment>() {
+			@Override
+			public Establishment extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if (rs.next()) {
+					Establishment anEstablishment = new Establishment();
+					anEstablishment.setFhrsID(rs.getString("fhrsID"));
+					anEstablishment.setName(rs.getString("name"));
+					anEstablishment.setType(rs.getString("type"));
+					anEstablishment.setTypeID(rs.getString("typeID"));
+					anEstablishment.setAddressLine1(rs.getString("addressLine1"));
+					anEstablishment.setAddressLine2(rs.getString("addressLine2"));
+					anEstablishment.setAddressLine3(rs.getString("addressLine3"));
+					anEstablishment.setAddressLine4(rs.getString("addressLine4"));
+					anEstablishment.setPostcode(rs.getString("postcode"));
+					anEstablishment.setPhone(rs.getString("phone"));
+					anEstablishment.setRatingValue(rs.getString("ratingValue"));
+					anEstablishment.setRatingDate(LocalDate.parse(rs.getString("ratingDate")));
+					anEstablishment.setSelected(true);
+					return anEstablishment;
+				}
+				return null;
+			}
+		});
+	}	
+	
+	
 	
 	
 	
