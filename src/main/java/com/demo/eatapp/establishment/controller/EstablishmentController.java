@@ -1,6 +1,5 @@
 package com.demo.eatapp.establishment.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -45,16 +44,10 @@ public class EstablishmentController {
 	   @GetMapping(value = "/list")
 	   public String getList(Model model) {
 		   System.out.println("In Get");
-		   Establishments establishments = new Establishments(new ArrayList<Establishment>(establishmentDAO.getList("test")));
-		   for (Establishment est : establishments.getEstablishmentList()) {
-			   System.out.println("----------------------------------------");
-			   System.out.println("Get Controller Debug: " + est.getName());
-			   System.out.println("Get Controller Debug: " + est.getFhrsID());
-			   System.out.println("Get Controller Selected: " + est.isSelected());
-		   }
-		   
-		   //VARIABLE FOR TITLE - "PERSONAL LIST" (search would be "SEARCH RESULTS" (maybe note to say those in your list selected) 
-		   model.addAttribute("establishments", establishments);
+		   //VARIABLE FOR TITLE - "PERSONAL LIST" (search would be "SEARCH RESULTS" (maybe note to say those in your list selected)
+		   Establishments establishmentsList = new Establishments();
+		   establishmentsList.setEstablishments(establishmentDAO.getList("test"));
+		   model.addAttribute("establishments", establishmentsList);
 		   return "list";
 	   }
 	   
@@ -63,7 +56,7 @@ public class EstablishmentController {
 	   @PostMapping(value = "/list")
 	   public String postList(@ModelAttribute("establishments") Establishments establishments, Model model) {
 		   System.out.println("Hit post");
-		   for (Establishment est : establishments.getEstablishmentList()) {
+		   for (Establishment est : establishments.getEstablishments()) {
 		   //Get current list, if item in list, is it now not selected? If so remove
 		   //If item not in list and now selected, put it in
 			   if(establishmentDAO.inUsersList(est, "test")) {
@@ -74,8 +67,9 @@ public class EstablishmentController {
 				establishmentDAO.addToList(est, "test");
 			   }
 		   }
-		   Establishments establishmentList = new Establishments(new ArrayList<Establishment>(establishmentDAO.getList("test")));
-		   model.addAttribute("establishments", establishmentList);
+		   Establishments establishmentsList = new Establishments();
+		   establishmentsList.setEstablishments(establishmentDAO.getList("test"));
+		   model.addAttribute("establishments", establishmentsList);
 		   return "list";
 	   }
 	
@@ -105,14 +99,19 @@ public class EstablishmentController {
 			// build the request\
 			HttpEntity request = new HttpEntity(headers);
 			String url = "";
+	System.out.println("Debug #1");
 			if (isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getName()) && isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getPostcode())) {
 				 url = "https://api.ratings.food.gov.uk/Establishments?name=" + establishment.getName() + "&address="+establishment.getPostcode();
+	System.out.println("Debug url #1: " +url);				 
 			} else if (isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getName())){
-				 url = "https://api.ratings.food.gov.uk/Establishments?name=" + establishment.getName();				
+				 url = "https://api.ratings.food.gov.uk/Establishments?name=" + establishment.getName();
+	System.out.println("Debug url #2: " +url);				 				 
 			} else if (isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getPostcode())){
 				 url = "https://api.ratings.food.gov.uk/Establishments?address="+establishment.getPostcode();
+	System.out.println("Debug url #3: " +url);				 				 
 			} else {
 				//send error msg
+	System.out.println("Debug url #4: " +url);				 				
 			}
 
 			// make an HTTP GET request with headers
@@ -123,23 +122,22 @@ public class EstablishmentController {
 			        Establishments.class
 			);
 
-			Set<String> idCheck = new HashSet<String>();
-			for (Establishment est : establishmentDAO.getList("test")) {
-				
-				idCheck.add(est.getFhrsID());
+			List<Establishment> testList = response.getBody().getEstablishments();
+
+			Establishments test = new Establishments();
+			test.setEstablishments(testList);
+			//System.out.println("Debug response has body: " + response.hasBody());
+			//System.out.println("Debug response get body: " + response.getBody());
+			//System.out.println("Debug response toString: " + response.toString());
+			System.out.println("Anything after #1");
+			
+			for(Establishment e : test.getEstablishments()) {
+				System.out.println("Name: " +e.getName());
 			}
 			
-			//Establishment apiEstList[] = new Establishment[response.getBody().getEstablishments().length]; 
-			List<Establishment> apiEstList = response.getBody().getEstablishmentList();
 			
-			//Maybe filter out anything but cafes, bars, restaurants - ie places you can sit down to eat/drink
-			for (Establishment est : apiEstList) {
-				if(idCheck.contains(est.getFhrsID())) {
-					est.setSelected(true);
-					System.out.println("Is Selected:" + est.getName());					
-				}
-			}
-			model.addAttribute("establishments", apiEstList);
+			
+			model.addAttribute("establishments", test);
 		   return "list";
 	   }
 	

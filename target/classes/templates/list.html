@@ -90,8 +90,6 @@
 						<tr th:each="establishment, itemStat : *{establishmentList}">
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].name'"  th:value="${establishment.name}"/>
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].fhrsID'"  th:value="${establishment.fhrsID}"/>
-
-							
 							<td><input type="checkbox" th:field="*{establishmentList[__${itemStat.index}__].selected}"   th:value="${establishment.fhrsID}"/></td>
 							<td th:text="${establishment.getName()}"></td>
 							<td th:text="${establishment.getRatingValue()}"></td>

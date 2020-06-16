@@ -1,30 +1,32 @@
 package com.demo.eatapp.establishments.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.demo.eatapp.establishment.model.Establishment;
 
 public class Establishments {
 
-	private ArrayList<Establishment> establishmentList; 
+	private List<Establishment> establishmentList; 
 	
 	public Establishments() {
 		
 	}
 
-	
-	public Establishments(ArrayList<Establishment> establishments) {
-		this.establishmentList = establishments;
-	}
-	
-	public ArrayList<Establishment> getEstablishmentList() {
+	public List<Establishment> getEstablishmentList() {
 		return establishmentList;
 	}
 
-	public void setEstablishmentList(ArrayList<Establishment> establishments) {
-		this.establishmentList = establishments;
+	public void setEstablishmentList(List<Establishment> establishmentList) {
+		this.establishmentList = establishmentList;
 	}
 
+	//Renamed getter for ResponseEntity
+	public List<Establishment> getEstablishments() {
+		return establishmentList;
+	}
 	
+	//Renamed setter for ResponseEntity	
+	public void setEstablishments(List<Establishment> establishmentList) {
+		this.establishmentList = establishmentList;
+	}
 }
