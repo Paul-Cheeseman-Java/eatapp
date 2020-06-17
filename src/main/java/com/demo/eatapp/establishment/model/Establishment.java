@@ -37,7 +37,7 @@ public class Establishment extends RepresentationModel<Establishment>{
 	@JsonProperty("RatingValue")
     private String ratingValue;
 	@JsonProperty("RatingDate")
-    private LocalDate ratingDate;
+    private String ratingDate;
     private boolean selected = false;
 
     public Establishment() {
@@ -177,13 +177,13 @@ public class Establishment extends RepresentationModel<Establishment>{
 
 
 
-	public LocalDate getRatingDate() {
+	public String getRatingDate() {
 		return ratingDate;
 	}
 
 
 
-	public void setRatingDate(LocalDate ratingDate) {
+	public void setRatingDate(String ratingDate) {
 		this.ratingDate = ratingDate;
 	}
 

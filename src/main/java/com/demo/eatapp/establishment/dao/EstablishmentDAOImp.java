@@ -51,7 +51,7 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 				anEstablishment.setPostcode(rs.getString("postcode"));
 				anEstablishment.setPhone(rs.getString("phone"));
 				anEstablishment.setRatingValue(rs.getString("ratingValue"));
-				anEstablishment.setRatingDate(LocalDate.parse(rs.getString("ratingDate")));
+				anEstablishment.setRatingDate(rs.getString("ratingDate"));
 				anEstablishment.setSelected(true);
 				return anEstablishment;
 			}
@@ -115,7 +115,7 @@ public class EstablishmentDAOImp implements EstablishmentDAO {
 					anEstablishment.setPostcode(rs.getString("postcode"));
 					anEstablishment.setPhone(rs.getString("phone"));
 					anEstablishment.setRatingValue(rs.getString("ratingValue"));
-					anEstablishment.setRatingDate(LocalDate.parse(rs.getString("ratingDate")));
+					anEstablishment.setRatingDate(rs.getString("ratingDate"));
 					anEstablishment.setSelected(true);
 					return anEstablishment;
 				}

@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.demo.eatapp.establishment.dao.EstablishmentDAO;
@@ -45,9 +44,13 @@ public class EstablishmentController {
 	   public String getList(Model model) {
 		   System.out.println("In Get");
 		   //VARIABLE FOR TITLE - "PERSONAL LIST" (search would be "SEARCH RESULTS" (maybe note to say those in your list selected)
-		   Establishments establishmentsList = new Establishments();
-		   establishmentsList.setEstablishments(establishmentDAO.getList("test"));
-		   model.addAttribute("establishments", establishmentsList);
+
+		   //When list is empty, need msg
+
+			Establishments est = new Establishments();
+			est.setEstablishments(establishmentDAO.getList("test"));
+			model.addAttribute("establishments", est);
+
 		   return "list";
 	   }
 	   
@@ -56,27 +59,44 @@ public class EstablishmentController {
 	   @PostMapping(value = "/list")
 	   public String postList(@ModelAttribute("establishments") Establishments establishments, Model model) {
 		   System.out.println("Hit post");
+		   
+		   
 		   for (Establishment est : establishments.getEstablishments()) {
+			   
 		   //Get current list, if item in list, is it now not selected? If so remove
 		   //If item not in list and now selected, put it in
+			   System.out.println("In for loop, establishment: " +est.getName());
+			   System.out.println("In for loop, rating date: " +est.getRatingDate());
 			   if(establishmentDAO.inUsersList(est, "test")) {
+				   System.out.println("In list");
 				   if(!est.isSelected()) {
+					   System.out.println("In list but not selected");
 					   establishmentDAO.removeFromList(est, "test");
 				   }
 			   } else if (est.isSelected()) {
+				System.out.println("Not in list, new addition");
 				establishmentDAO.addToList(est, "test");
 			   }
 		   }
-		   Establishments establishmentsList = new Establishments();
-		   establishmentsList.setEstablishments(establishmentDAO.getList("test"));
-		   model.addAttribute("establishments", establishmentsList);
+		   
+		   //When list is empty, need msg
+		   
+
+		   
+			Establishments est = new Establishments();
+			est.setEstablishments(establishmentDAO.getList("test"));
+			model.addAttribute("establishments", est);
+
+			for (Establishment e : est.getEstablishmentList()) {
+				   System.out.println("List POST: " +e.getName());
+			}
+			
 		   return "list";
 	   }
 	
 
 	   @GetMapping(value = "/search")
 	   public String getHomepage(Model model) {
-		   System.out.println("In Get");
 		   model.addAttribute("establishment", new Establishment());
 		   return "search";
 	   }
@@ -89,8 +109,8 @@ public class EstablishmentController {
 	   
 	   @PostMapping("/search")
 	   public String postHomepage(RestTemplate restTemplate, @ModelAttribute Establishment establishment, Model model) {
-		   System.out.println("Name: " +establishment.getName() + ", postcode: " + establishment.getPostcode());
-
+		   
+		   
 			HttpHeaders headers = new HttpHeaders();
 			// set `Content-Type` and `Accept` headers
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -99,19 +119,14 @@ public class EstablishmentController {
 			// build the request\
 			HttpEntity request = new HttpEntity(headers);
 			String url = "";
-	System.out.println("Debug #1");
 			if (isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getName()) && isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getPostcode())) {
 				 url = "https://api.ratings.food.gov.uk/Establishments?name=" + establishment.getName() + "&address="+establishment.getPostcode();
-	System.out.println("Debug url #1: " +url);				 
 			} else if (isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getName())){
 				 url = "https://api.ratings.food.gov.uk/Establishments?name=" + establishment.getName();
-	System.out.println("Debug url #2: " +url);				 				 
 			} else if (isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getPostcode())){
 				 url = "https://api.ratings.food.gov.uk/Establishments?address="+establishment.getPostcode();
-	System.out.println("Debug url #3: " +url);				 				 
 			} else {
 				//send error msg
-	System.out.println("Debug url #4: " +url);				 				
 			}
 
 			// make an HTTP GET request with headers
@@ -122,22 +137,27 @@ public class EstablishmentController {
 			        Establishments.class
 			);
 
-			List<Establishment> testList = response.getBody().getEstablishments();
+			List<Establishment> estList = response.getBody().getEstablishments();
 
-			Establishments test = new Establishments();
-			test.setEstablishments(testList);
-			//System.out.println("Debug response has body: " + response.hasBody());
-			//System.out.println("Debug response get body: " + response.getBody());
-			//System.out.println("Debug response toString: " + response.toString());
-			System.out.println("Anything after #1");
+			Establishments est = new Establishments();
+			est.setEstablishments(estList);
+
+			//Set selected ticks for user
+			for(Establishment e : est.getEstablishments()) {
+				if(establishmentDAO.inUsersList(e, "test")) {
+					e.setSelected(true);
+				}
+				
+			}
 			
-			for(Establishment e : test.getEstablishments()) {
-				System.out.println("Name: " +e.getName());
+		   //When list is empty, need msg
+			
+			for (Establishment e : est.getEstablishmentList()) {
+				   System.out.println("Search POST: " +e.getName());
 			}
 			
 			
-			
-			model.addAttribute("establishments", test);
+			model.addAttribute("establishments", est);
 		   return "list";
 	   }
 	
