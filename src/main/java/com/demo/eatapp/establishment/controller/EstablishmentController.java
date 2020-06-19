@@ -50,6 +50,7 @@ public class EstablishmentController {
 			Establishments est = new Establishments();
 			est.setEstablishments(establishmentDAO.getList("test"));
 			model.addAttribute("establishments", est);
+			model.addAttribute("pageTitle", "Your List");
 
 		   return "list";
 	   }
@@ -86,7 +87,10 @@ public class EstablishmentController {
 			Establishments est = new Establishments();
 			est.setEstablishments(establishmentDAO.getList("test"));
 			model.addAttribute("establishments", est);
+			model.addAttribute("pageTitle", "Your List");
 
+			
+			
 			for (Establishment e : est.getEstablishmentList()) {
 				   System.out.println("List POST: " +e.getName());
 			}
@@ -158,6 +162,8 @@ public class EstablishmentController {
 			
 			
 			model.addAttribute("establishments", est);
+			model.addAttribute("pageTitle", "Search Results");
+			
 		   return "list";
 	   }
 	
