@@ -10,6 +10,9 @@ public interface UserDAO {
 
 	public User getUser(String username);
 	
+	
+	public void insertUser(User user);
+	
 	//public void removeFromList(int fhrsID, String username);
 	
 	

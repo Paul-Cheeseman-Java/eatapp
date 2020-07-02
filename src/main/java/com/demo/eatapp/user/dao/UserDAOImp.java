@@ -72,4 +72,14 @@ public class UserDAOImp implements UserDAO {
 		});
 	}
 
+	
+	@Override
+	public void insertUser(User user) {
+		String sql = "INSERT INTO users (username, password, firstname, lastname, age, phone, postcode) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+		jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getAge(), user.getPhone(), user.getPostcode());
+	}
+	
+	
+	
 }

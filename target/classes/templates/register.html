@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/components :: head"></div>
+
+<body>
+
+	<div th:replace="fragments/components :: #topbar"></div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo mr-auto">
+        <h1 class="text-light"><a href="index.html"><span>EatApp</span></a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+          <ul>
+              <li class="active"><a href="home">Home</a></li>
+          </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+  <main>
+    <!-- ======= Events Section ======= -->
+    <section id="events-hompage" class="events">
+      <div class="container">
+
+            <h2 class="search-titles text-center">User Registration</h2>
+
+			<div th:if="${error}">
+  				<h3>That username is in use, please register with a different one</h3>
+ 			</div>
+
+            <form th:action="@{/register}" th:object="${user}"  method="post">
+                <div class="form-row">
+                    <div class="col-md-3 form-group">
+                        <label>Username</label>
+						<input type="text" th:field="*{username}" />
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label>Password</label>
+						<input type="text" th:field="*{password}" />
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label>First Name</label>
+						<input type="text" th:field="*{firstName}" />
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label>Last Name</label>
+						<input type="text" th:field="*{lastName}" />
+                    </div>
+                 </div>
+
+                 <div class="form-row">
+                    <div class="col-md-3 form-group">
+                        <label>Age</label>
+						<input type="text" th:field="*{age}" />
+                    </div>                    
+                    <div class="col-md-3 form-group">
+                        <label>Phone</label>
+						<input type="text" th:field="*{phone}" />
+                    </div>                    
+                    <div class="col-md-3 form-group">
+                        <label>Postcode</label>
+						<input type="text" th:field="*{postcode}" />
+                    </div>                    
+                    <div class="col-md-3 form-group">
+		                <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </div>
+            </form>
+
+
+
+
+		</div>
+    </section><!-- End Events Section -->
+  </main><!-- End #main -->
+
+
+
+  <!-- ======= Footer ======= -->
+ <div th:replace="fragments/components :: footer"></div>
+	
+
+</body>
+
+</html>

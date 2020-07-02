@@ -1,5 +1,6 @@
 package com.demo.eatapp.establishment.controller;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -32,23 +33,24 @@ public class EstablishmentController {
 	@Autowired
 	private EstablishmentDAO establishmentDAO;
 
+		/*
 	   @GetMapping("/delete")
-	   public void removeFromList(HttpServletRequest request) {
+	   public void removeFromList(HttpServletRequest request, Principal principal) {
 		   int recievedFhrsID = Integer.parseInt(request.getParameter("id"));
 		   System.out.println("----- Deleting: " + recievedFhrsID + " ----------------");
-		   establishmentDAO.removeFromList(establishmentDAO.getEstablishment(recievedFhrsID, "test"), "test");
+		   establishmentDAO.removeFromList(establishmentDAO.getEstablishment(recievedFhrsID, principal.getName()), principal.getName());
 	   }
-
+		*/
 	
 	   @GetMapping(value = "/list")
-	   public String getList(Model model) {
+	   public String getList(Model model, Principal principal) {
 		   System.out.println("In Get");
 		   //VARIABLE FOR TITLE - "PERSONAL LIST" (search would be "SEARCH RESULTS" (maybe note to say those in your list selected)
 
 		   //When list is empty, need msg
 
 			Establishments est = new Establishments();
-			est.setEstablishments(establishmentDAO.getList("test"));
+			est.setEstablishments(establishmentDAO.getList(principal.getName()));
 			model.addAttribute("establishments", est);
 			model.addAttribute("pageTitle", "Your List");
 
@@ -58,7 +60,7 @@ public class EstablishmentController {
 	   
 	   
 	   @PostMapping(value = "/list")
-	   public String postList(@ModelAttribute("establishments") Establishments establishments, Model model) {
+	   public String postList(@ModelAttribute("establishments") Establishments establishments, Model model, Principal principal) {
 		   System.out.println("Hit post");
 		   
 		   
@@ -68,24 +70,20 @@ public class EstablishmentController {
 		   //If item not in list and now selected, put it in
 			   System.out.println("In for loop, establishment: " +est.getName());
 			   System.out.println("In for loop, rating date: " +est.getRatingDate());
-			   if(establishmentDAO.inUsersList(est, "test")) {
+			   if(establishmentDAO.inUsersList(est, principal.getName())) {
 				   System.out.println("In list");
 				   if(!est.isSelected()) {
 					   System.out.println("In list but not selected");
-					   establishmentDAO.removeFromList(est, "test");
+					   establishmentDAO.removeFromList(est, principal.getName());
 				   }
 			   } else if (est.isSelected()) {
 				System.out.println("Not in list, new addition");
-				establishmentDAO.addToList(est, "test");
+				establishmentDAO.addToList(est, principal.getName());
 			   }
 		   }
 		   
-		   //When list is empty, need msg
-		   
-
-		   
 			Establishments est = new Establishments();
-			est.setEstablishments(establishmentDAO.getList("test"));
+			est.setEstablishments(establishmentDAO.getList(principal.getName()));
 			model.addAttribute("establishments", est);
 			model.addAttribute("pageTitle", "Your List");
 
@@ -112,10 +110,9 @@ public class EstablishmentController {
 	   } 
 	   
 	   @PostMapping("/search")
-	   public String postHomepage(RestTemplate restTemplate, @ModelAttribute Establishment establishment, Model model) {
-		   
-		   
-			HttpHeaders headers = new HttpHeaders();
+	   public String postHomepage(RestTemplate restTemplate, @ModelAttribute Establishment establishment, Model model, Principal principal) {
+
+		   HttpHeaders headers = new HttpHeaders();
 			// set `Content-Type` and `Accept` headers
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -148,7 +145,7 @@ public class EstablishmentController {
 
 			//Set selected ticks for user
 			for(Establishment e : est.getEstablishments()) {
-				if(establishmentDAO.inUsersList(e, "test")) {
+				if(establishmentDAO.inUsersList(e, principal.getName())) {
 					e.setSelected(true);
 				}
 				
