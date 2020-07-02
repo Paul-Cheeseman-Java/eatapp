@@ -38,40 +38,44 @@
 
             <form th:action="@{/register}" th:object="${user}"  method="post">
                 <div class="form-row">
-                    <div class="col-md-3 form-group">
+                    <div class="offset-md-2 col-md-4 form-group text-right">
                         <label>Username</label>
 						<input type="text" th:field="*{username}" />
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label>Password</label>
+        	        </div>
+                    <div class="col-md-4 form-group text-right">
+	                    <label>Password</label>
 						<input type="text" th:field="*{password}" />
-                    </div>
-                    <div class="col-md-3 form-group">
+            	    </div>                    
+				</div>
+                <div class="form-row">
+                    <div class="offset-md-2 col-md-4 form-group text-right">
                         <label>First Name</label>
 						<input type="text" th:field="*{firstName}" />
                     </div>
-                    <div class="col-md-3 form-group">
+                   	<div class="col-md-4 form-group text-right">
                         <label>Last Name</label>
 						<input type="text" th:field="*{lastName}" />
-                    </div>
-                 </div>
-
-                 <div class="form-row">
-                    <div class="col-md-3 form-group">
+            	    </div>                    
+				</div>
+                <div class="form-row">
+                    <div class="offset-md-2 col-md-4 form-group text-right">
                         <label>Age</label>
 						<input type="text" th:field="*{age}" />
-                    </div>                    
-                    <div class="col-md-3 form-group">
+                    </div>
+                   	<div class="col-md-4 form-group text-right">
                         <label>Phone</label>
 						<input type="text" th:field="*{phone}" />
-                    </div>                    
-                    <div class="col-md-3 form-group">
+            	    </div>                    
+				</div>
+
+                <div class="form-row">
+                    <div class="offset-md-2 col-md-4 form-group text-right">
                         <label>Postcode</label>
 						<input type="text" th:field="*{postcode}" />
-                    </div>                    
-                    <div class="col-md-3 form-group">
-		                <button type="submit" class="btn btn-primary">Register</button>
                     </div>
+				</div>
+                <div class="form-row justify-content-center">
+		               <button type="submit" class="btn btn-primary">Register</button>
                 </div>
             </form>
 
