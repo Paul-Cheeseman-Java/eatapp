@@ -19,9 +19,9 @@
 
       <nav class="nav-menu d-none d-lg-block">
           <ul>
-              <li>class="active"><a href="search">Search</a></li>
-              <li><a href="#list">Your list</a></li>
-              <li><a href="#book-a-table">Sign Out</a></li>
+              <li class="active"><a href="search">Search</a></li>
+              <li><a href="list">Your list</a></li>
+              <li><a href="logout">Log Out</a></li>
           </ul>
       </nav><!-- .nav-menu -->
 
@@ -36,7 +36,7 @@
 
             <form th:action="@{/search}" th:object="${establishment}"  method="post">
                 <div class="form-row">
-                    <div class="col-md-6 form-group">
+                	<div class="offset-md-2 col-md-5 form-group form-group">
                         <label>by Name</label>
 						<input type="text" th:field="*{name}" />
                     </div>
@@ -44,9 +44,9 @@
                         <label>by Postcode</label>
 						<input type="text" th:field="*{postcode}" />
                     </div>
-                    <div class="col-md-1 form-group">
-		                <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+		               	<button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </form>
 
