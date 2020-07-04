@@ -1,4 +1,33 @@
 
+
+.login-title{
+	color: #ffb03b;
+	margin-top: 5%;
+}
+
+.search-title{
+	color: #ffb03b;
+	margin-top: 10%;
+	margin-bottom: 5%;
+}
+
+.register-title
+{
+	color: #ffb03b;
+	margin-top: 5%;
+	margin-bottom: 2%;
+}
+
+.list-title
+{
+	color: #ffb03b;
+}
+
+
+.full-viewport{
+	height: 100vh;
+}
+
 #events-hompage {
   padding-top: 120px;
 }
@@ -32,7 +61,3 @@ table{
 	background: rgba(255,255,255,0.25);
 }
 
-.search-titles{
-	color: #ffb03b;
-	
-}
