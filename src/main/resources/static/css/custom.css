@@ -1,4 +1,11 @@
 
+.formError{
+	font-size: 0.85em;
+	color: red;
+}
+
+
+
 
 .login-title{
 	color: #ffb03b;

@@ -33,11 +33,6 @@
             <h2 class="register-title text-center">User Registration</h2>
 
 
-			https://spring.io/guides/gs/validating-form-input/
-
-			<div th:if="${error}">
-  				<h3>That username is in use, please register with a different one</h3>
- 			</div>
 
             <form th:action="@{/register}" th:object="${user}"  method="post">
             
@@ -46,43 +41,46 @@
     				<div class="form-group col-md-6">
                         <label class="control-label">Username</label>
 						<input type="text" th:field="*{username}" class="form-control" placeholder="Username"/>
-						<div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+						<div class="formError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+						<div th:if="${error}">
+  							<div class="formError">That username is in use, please register with a different one</div>
+ 						</div>
     				</div>
     				<div class="form-group col-md-6">
 	   				    <label class="control-label">Password</label>
 						<input type="password" th:field="*{password}" class="form-control" placeholder="Password"/>
-						<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+						<div class="formError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
     				</div>
   				</div>
 				<div class="form-row">
     				<div class="form-group col-md-6">
                         <label class="control-label">First Name</label>
 						<input type="text" th:field="*{firstName}" class="form-control" placeholder="First Name"/>
-						<div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>						
+						<div class="formError" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>						
     				</div>
     				<div class="form-group col-md-6">
                         <label class="control-label">Last Name</label>
 						<input type="text" th:field="*{lastName}" class="form-control" placeholder="Last Name"/>
-						<div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+						<div class="formError" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
     				</div>
   				</div>
 				<div class="form-row">
     				<div class="form-group col-md-6">
                         <label class="control-label">Age</label>
 						<input type="number" th:field="*{age}" class="form-control col-md-2" placeholder="Age"/>
-						<div th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+						<div class="formError" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
     				</div>
 				</div>
 				<div class="form-row">
     				<div class="form-group col-md-3">
                         <label class="control-label">Phone</label>
 						<input type="number" th:field="*{phone}" class="form-control" placeholder="Phone Number"/>
-						<div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+						<div class="formError" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
     				</div>
     				<div class="form-group col-md-2">
                         <label class="control-label">Postcode</label>
 						<input type="text" th:field="*{postcode}" class="form-control" placeholder="Postcode"/>
-						<div th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}"></div>
+						<div class="formError" th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}"></div>
     				</div>
 
   				</div>
