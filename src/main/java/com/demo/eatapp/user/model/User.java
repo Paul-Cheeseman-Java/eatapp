@@ -1,5 +1,7 @@
 package com.demo.eatapp.user.model;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -7,12 +9,33 @@ import org.springframework.hateoas.RepresentationModel;
 
 public class User extends RepresentationModel<User>{
 
+	@NotNull
+	@Size(min=2, max=20, message = "Username must be between 2 and 20 characters")
 	private String username;
+	
+	@NotNull
+	@Size(min=8, max=30, message = "Password must be between 8 and 30 characters")
 	private String password;
+	
+	@NotNull
+	@Size(min=2, max=20, message = "First name must be between 2 and 20 characters")
 	private String firstName;
+
+	@NotNull
+	@Size(min=2, max=20, message = "Last name must be between 2 and 20 characters")
 	private String lastName;
+
+	@NotNull
+	@Min(value=16, message = "You need to be at least 16 to register")
+	@Max(value=100, message = "Users over 100 need to be verified")
 	private int age;
+	
+	@NotNull
+	@Size(min=11, max=11, message = "Phone number must be 11 digits")
 	private String phone;
+	
+	@NotNull
+	@Size(min=7, max=8, message = "Postcode must be between 7-8 characters")
 	private String postcode;
 	
 	public User() {
