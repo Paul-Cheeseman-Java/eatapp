@@ -48,7 +48,6 @@ public class EstablishmentController {
 		   //VARIABLE FOR TITLE - "PERSONAL LIST" (search would be "SEARCH RESULTS" (maybe note to say those in your list selected)
 
 		   //When list is empty, need msg
-
 			Establishments est = new Establishments();
 			est.setEstablishments(establishmentDAO.getList(principal.getName()));
 			model.addAttribute("establishments", est);
