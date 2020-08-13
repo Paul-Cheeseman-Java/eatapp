@@ -1,6 +1,7 @@
 package com.demo.eatapp.establishment.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +34,7 @@ public class EstablishmentController {
 	@Autowired
 	private EstablishmentDAO establishmentDAO;
 
-		/*
+	/*
 	   @GetMapping("/delete")
 	   public void removeFromList(HttpServletRequest request, Principal principal) {
 		   int recievedFhrsID = Integer.parseInt(request.getParameter("id"));
@@ -42,27 +43,61 @@ public class EstablishmentController {
 	   }
 		*/
 	
-	   @GetMapping(value = "/list")
-	   public String getList(Model model, Principal principal) {
-		   System.out.println("In Get");
-		   //VARIABLE FOR TITLE - "PERSONAL LIST" (search would be "SEARCH RESULTS" (maybe note to say those in your list selected)
+	
+	/*
 
-		   //When list is empty, need msg
-			Establishments est = new Establishments();
-			est.setEstablishments(establishmentDAO.getList(principal.getName()));
+ 	 /myList - Get, gets stored list and puts in pagination as myListPaginationArray put on modal for subsequent calls (for different page of results)
+	 /mylist - Post, saves to stored list
+
+	 
+ 	 /search - Gets list from API, paginates into searchResultsPaginationArray, put on model for searchResults
+	
+	 /searchResults - Gets pageArray and displays first page
+	   				- Any paginaion  
+   	 /searchResults - Post, 
+	  	 
+	 */
+	
+	   @GetMapping(value = "/myList")
+	   public String getList(Model model, Principal principal, HttpServletRequest requestForParams) {
+		   System.out.println("In Get");
+
+			//model.addAttribute("pagesArray", pagesArray);		
+			//model.addAttribute("establishments", estListToSend);
+		   
+		   
+			int reuestedPage = 9999;
+			//If requested with page
+			/*
+			if (requestForParams.getParameterMap().containsKey("page")){
+				reuestedPage = Integer.parseInt(requestForParams.getParameter("page"));
+				System.out.println("Page Num: " +reuestedPage);
+				
+				//model.getAttribute("pagesArray", pagesArray);		
+				//model.addAttribute("establishments", estListToSend);
+				
+				
+				
+			} else {
+				   Establishments est = new Establishments();
+					est.setEstablishments(establishmentDAO.getList(principal.getName()));				
+			}
+		   */
+		   
+		   Establishments est = new Establishments();
+			est.setEstablishments(establishmentDAO.getList(principal.getName()));				
 			model.addAttribute("establishments", est);
 			model.addAttribute("pageTitle", "Your List");
-
-		   return "list";
+		   return "myList";
 	   }
 	   
 	   
 	   
-	   @PostMapping(value = "/list")
+	   @PostMapping(value = "/myList")
 	   public String postList(@ModelAttribute("establishments") Establishments establishments, Model model, Principal principal) {
 		   System.out.println("Hit post");
 		   
-		   
+
 		   for (Establishment est : establishments.getEstablishments()) {
 			   
 		   //Get current list, if item in list, is it now not selected? If so remove
@@ -91,8 +126,8 @@ public class EstablishmentController {
 			for (Establishment e : est.getEstablishmentList()) {
 				   System.out.println("List POST: " +e.getName());
 			}
-			
-		   return "list";
+		
+		   return "myList";
 	   }
 	
 
@@ -107,6 +142,12 @@ public class EstablishmentController {
 	   {  
 		   return string != null && !string.isEmpty() && !string.trim().isEmpty();  
 	   } 
+	   
+	   
+	   
+
+	   //Bit of a hack as couldn't get this to pass on model
+	   List<Establishments> pagesArray = new ArrayList<Establishments>();
 	   
 	   @PostMapping("/search")
 	   public String postHomepage(RestTemplate restTemplate, @ModelAttribute Establishment establishment, Model model, Principal principal) {
@@ -147,20 +188,85 @@ public class EstablishmentController {
 				if(establishmentDAO.inUsersList(e, principal.getName())) {
 					e.setSelected(true);
 				}
+			}
+			
+			
+			//When list is empty, need msg
+
+			
+			//Amout of rows in table per page
+			int amntOfRows = 10;
+			
+			//if est.getEstablishments() not empty!
+			int amtPagesQuotient = est.getEstablishments().size()/amntOfRows;				 
+			int amtPagesRemainder = est.getEstablishments().size()/amntOfRows;
+			if (amtPagesRemainder > 0) {
+				amtPagesQuotient += 1;
+			}			
+			//If there is a remainder, need extra page for remaining
+			//need to create a list of the lists
+			//used first list for this controller response
+
+			for (int i=0; i < amtPagesQuotient; i++) {
+				int pageStart = i * amntOfRows; 
+				int pageEnd = (i * amntOfRows) +  (amntOfRows); 
 				
+				//To ensure that the last page of establishments is the correct size
+				if (pageEnd > est.getEstablishments().size()) {
+					pageEnd = est.getEstablishments().size() - 1;
+				}
+				
+			
+				//https://stackoverflow.com/questions/16644811/converting-a-sublist-of-an-arraylist-to-an-arraylist
+				 List<Establishment> pageListing = new ArrayList<Establishment>(est.getEstablishments().subList(pageStart, pageEnd));
+				 Establishments pageEst = new Establishments();
+				 pageEst.setEstablishmentList(pageListing);
+				 
+				 pagesArray.add(pageEst);
 			}
 			
-		   //When list is empty, need msg
-			
-			for (Establishment e : est.getEstablishmentList()) {
-				   System.out.println("Search POST: " +e.getName());
+			System.out.println("First Page");			
+			for(Establishment testEst : pagesArray.get(0).getEstablishmentList()) {
+				System.out.println("Est Stored: " +testEst);
 			}
 			
-			
-			model.addAttribute("establishments", est);
+			model.addAttribute("amountOfPages", pagesArray.size());
+			model.addAttribute("establishments", pagesArray.get(0));
+			model.addAttribute("currentPageNumber", 1);
 			model.addAttribute("pageTitle", "Search Results");
 			
-		   return "list";
+		   return "searchResults";
 	   }
+
 	
+	
+	   
+	   @GetMapping(value = "/searchResults")
+	   public String getSearchResults(Model model, Principal principal, HttpServletRequest requestForParams) {
+	
+		   System.out.println("In SearchResult Get");
+		   
+		   List<Establishment> pageOfEstablishments = new ArrayList<Establishment>();
+		   int pageNum = 1;
+
+			if (requestForParams.getParameterMap().containsKey("page")){
+				int requestedPage = Integer.parseInt(requestForParams.getParameter("page"));
+				
+				if (requestedPage > 0 && (requestedPage <= pagesArray.size())) {
+					pageNum = requestedPage;
+				}
+			}
+			model.addAttribute("amountOfPages", pagesArray.size());			
+			model.addAttribute("currentPageNumber", pageNum);
+			model.addAttribute("establishments", pagesArray.get(pageNum -1));
+			model.addAttribute("pageTitle", "Search Results - Needs sorting");
+			
+			return "searchResults";
+	   }
+	   
+	   
+	   
+	   
+	   
+	   
 }

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/components :: head"></div>
+
+<body>
+
+	<div th:replace="fragments/components :: #topbar"></div>
+
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo mr-auto">
+        <h1 class="text-light"><a href="index.html"><span>EatApp</span></a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+          <ul>
+              <li><a href="search">Search</a></li>
+              <li class="active"><a href="list">Your list</a></li>
+              <li><a href="logout">Log Out</a></li>
+          </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+  <main>
+    <!-- ======= Events Section ======= -->
+    <section id="events-hompage" class="events">
+      <div class="container full-viewport">
+      
+            <h1 class="list-title text-center" th:text="${pageTitle}"></h1>
+
+
+
+
+           <form th:action="@{/list}" th:object="${establishments}"  method="post">
+           
+            <div id="empty-list-msg" th:if="*{establishmentList.isEmpty()}">
+  				<h1>You have an empty list!</h1>
+ 			</div>
+
+			<div th:unless="*{establishmentList.isEmpty()}">
+           
+           
+           
+                <button type="submit" class="btn btn-primary">Save</button>
+  				<table class="table">
+  					<thead>
+    					<tr>
+      					<th scope="col">Selected</th>
+      					<th scope="col">Name</th>
+      					<th scope="col">Rating</th>
+      					<th scope="col">Postcode</th>
+      					<th scope="col">Phone</th>
+    					</tr>
+  					</thead>
+  					<tbody>
+  					
+						<tr th:each="establishment, itemStat : *{establishmentList}">
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].fhrsID'"  th:value="${establishment.fhrsID}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].name'"  th:value="${establishment.name}"/>
+
+
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].type'"  th:value="${establishment.type}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].typeID'"  th:value="${establishment.typeID}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].addressLine1'"  th:value="${establishment.addressLine1}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].addressLine2'"  th:value="${establishment.addressLine2}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].addressLine3'"  th:value="${establishment.addressLine3}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].addressLine4'"  th:value="${establishment.addressLine4}"/>																					
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].postcode'"  th:value="${establishment.postcode}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].phone'"  th:value="${establishment.phone}"/>
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].ratingValue'"  th:value="${establishment.ratingValue}"/>
+
+							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].ratingDate'"  th:value="${establishment.ratingDate}"/>
+
+
+
+							<td><input type="checkbox" th:field="*{establishmentList[__${itemStat.index}__].selected}"   th:value="${establishment.fhrsID}"/></td>
+							<td th:text="${establishment.getName()}"></td>
+							<td th:text="${establishment.getRatingValue()}"></td>
+							<td th:text="${establishment.getPostcode()}"></td>  
+							<td th:text="${establishment.getPhone()}"></td>
+						</tr>
+  					</tbody>
+  				</table>
+            </div>
+            </form>
+
+			<ul class="pagination pagination-sm">
+  				<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+  				<li class="page-item"><a class="page-link" href="myList?page=1">1</a></li>
+  				<li class="page-item"><a class="page-link" href="myList?page=2">2</a></li>
+  				<li class="page-item"><a class="page-link" href="myList?page=3">3</a></li>
+  				<li class="page-item"><a class="page-link" href="#">Next</a></li>
+			</ul>
+
+
+		</div>
+    </section><!-- End Events Section -->
+  </main><!-- End #main -->
+
+
+  <!-- ======= Footer ======= -->
+ <div th:replace="fragments/components :: footer"></div>	
+
+</body>
+
+</html>

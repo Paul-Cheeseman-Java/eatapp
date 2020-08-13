@@ -32,7 +32,7 @@
     <!-- ======= Events Section ======= -->
     <section id="events-hompage" class="events">
       <div class="container full-viewport">
-
+      
             <h1 class="list-title text-center" th:text="${pageTitle}"></h1>
 
 
@@ -40,8 +40,8 @@
 
            <form th:action="@{/list}" th:object="${establishments}"  method="post">
            
-            <div th:if="*{establishmentList.isEmpty()}">
-  				<h1>Empty List!</h1>
+            <div id="empty-list-msg" th:if="*{establishmentList.isEmpty()}">
+  				<h1>You have an empty list!</h1>
  			</div>
 
 			<div th:unless="*{establishmentList.isEmpty()}">
@@ -60,7 +60,6 @@
     					</tr>
   					</thead>
   					<tbody>
-  					
   					
 						<tr th:each="establishment, itemStat : *{establishmentList}">
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].fhrsID'"  th:value="${establishment.fhrsID}"/>
@@ -87,11 +86,49 @@
 							<td th:text="${establishment.getPostcode()}"></td>  
 							<td th:text="${establishment.getPhone()}"></td>
 						</tr>
-
   					</tbody>
   				</table>
             </div>
             </form>
+
+
+			<nav aria-label="Pagination" th:if="${amountOfPages gt 0}">
+
+			    <ul class="pagination justify-content-center font-weight-medium">
+
+					<!--
+			        <li class="page-item" th:classappend="${currentPageNumber eq 0} ? 'disabled'">
+            			<a class="page-link svg-icon" th:href="@{searchResults?page={id}(id=${currentPageNumber lt 2 ? 1 : currentPageNumber})}" aria-label="Previous" title="Previous Page" rel="tooltip"><span aria-hidden="true" data-feather="chevrons-left" width="20" height="20"></span></a>
+        			</li>
+  					-->
+  					<li class="page-item" th:classappend="${currentPageNumber eq 0} ? 'disabled'">
+            			<a class="page-link svg-icon" th:href="@{searchResults?page={id}(id=${currentPageNumber lt 2 ? 1 : currentPageNumber -1})}" aria-label="Previous" title="Previous Page" rel="tooltip">
+            			<span aria-hidden="true" width="20" height="20"><i class="fa fa-chevron-left"></i></span></a>
+        			</li>
+  					
+			        <li class="page-item" th:classappend="${i eq currentPageNumbe1 } ? 'active'"
+            			th:each="i : ${#numbers.sequence( currentPageNumber, amountOfPages > 10 + currentPageNumber ? currentPageNumber + 10 : amountOfPages, 1)}">
+            			<a class="page-link" th:href="@{searchResults?page={id}(id=${i})}" th:text="${i}"
+               			th:title="${'Page '+ i}"
+               			rel="tooltip"></a>
+        			</li>
+
+			        <li class="page-item disabled" th:if="${currentPageNumber + 10 < amountOfPages}">
+            			<a class="page-link svg-icon" href="#">
+                			<span data-feather="more-horizontal" width="20" height="20"></span>
+            			</a>
+        			</li>
+
+			        <li class="page-item" th:classappend="${currentPageNumber eq amountOfPages} ? 'disabled'">
+			            <a class="page-link svg-icon" th:href="@{searchResults?page={id}(id=${currentPageNumber + 1})}"
+               			aria-label="Next"
+               			title="Next Page" rel="tooltip">
+			                <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20"></span>
+			            </a>
+        			</li>
+    			</ul>
+			</nav>
+
 
 		</div>
     </section><!-- End Events Section -->

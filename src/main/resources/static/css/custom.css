@@ -1,4 +1,9 @@
 
+#empty-list-msg{
+	text-align: center;
+	margin-top: 2em;
+}
+
 .formError{
 	font-size: 0.85em;
 	color: red;
