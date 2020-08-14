@@ -151,7 +151,12 @@ public class EstablishmentController {
 	   
 	   @PostMapping("/search")
 	   public String postHomepage(RestTemplate restTemplate, @ModelAttribute Establishment establishment, Model model, Principal principal) {
-
+		   
+		   
+		   //clear down array for each new search
+		   pagesArray.clear();
+		   
+		   
 		   HttpHeaders headers = new HttpHeaders();
 			// set `Content-Type` and `Accept` headers
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -180,6 +185,10 @@ public class EstablishmentController {
 
 			List<Establishment> estList = response.getBody().getEstablishments();
 
+			for (Establishment est : estList) {
+				System.out.println("API input: " +est.getName());
+			}
+			
 			Establishments est = new Establishments();
 			est.setEstablishments(estList);
 
@@ -193,16 +202,21 @@ public class EstablishmentController {
 			
 			//When list is empty, need msg
 
-			
-			//Amout of rows in table per page
+			//Amount of rows in table per page
 			int amntOfRows = 10;
 			
 			//if est.getEstablishments() not empty!
 			int amtPagesQuotient = est.getEstablishments().size()/amntOfRows;				 
-			int amtPagesRemainder = est.getEstablishments().size()/amntOfRows;
-			if (amtPagesRemainder > 0) {
+			int amtPagesRemainder = est.getEstablishments().size()%amntOfRows;
+		
+			System.out.println("amtPagesQuotient:" +amtPagesQuotient);
+			System.out.println("amtPagesRemainder:" +amtPagesRemainder);
+			
+			//Catch 'remainder' pages and also increment for results sets below the row display range
+			if (amtPagesRemainder > 0 || (amtPagesQuotient == 0 && amtPagesRemainder > 0)) {
 				amtPagesQuotient += 1;
-			}			
+			}
+			
 			//If there is a remainder, need extra page for remaining
 			//need to create a list of the lists
 			//used first list for this controller response
@@ -211,23 +225,33 @@ public class EstablishmentController {
 				int pageStart = i * amntOfRows; 
 				int pageEnd = (i * amntOfRows) +  (amntOfRows); 
 				
+
+				System.out.println("est.getEstablishments().size()):" +est.getEstablishments().size());
+				
 				//To ensure that the last page of establishments is the correct size
 				if (pageEnd > est.getEstablishments().size()) {
-					pageEnd = est.getEstablishments().size() - 1;
+					
+					pageEnd = est.getEstablishments().size();
 				}
 				
-			
+				System.out.println("pageStart:" +pageStart);
+				System.out.println("pageEnd:" +pageEnd);
+				
 				//https://stackoverflow.com/questions/16644811/converting-a-sublist-of-an-arraylist-to-an-arraylist
 				 List<Establishment> pageListing = new ArrayList<Establishment>(est.getEstablishments().subList(pageStart, pageEnd));
 				 Establishments pageEst = new Establishments();
 				 pageEst.setEstablishmentList(pageListing);
 				 
+				 for (Establishment test : pageListing) {
+					 System.out.println("Page Est: " +test.getName());
+				 }
+				 
 				 pagesArray.add(pageEst);
 			}
 			
-			System.out.println("First Page");			
+			
 			for(Establishment testEst : pagesArray.get(0).getEstablishmentList()) {
-				System.out.println("Est Stored: " +testEst);
+				System.out.println("Est Name: " +testEst.getName() + ", Est Postcode: " +testEst.getPostcode());
 			}
 			
 			model.addAttribute("amountOfPages", pagesArray.size());

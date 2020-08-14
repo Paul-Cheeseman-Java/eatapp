@@ -92,38 +92,30 @@
             </form>
 
 
-			<nav aria-label="Pagination" th:if="${amountOfPages gt 0}">
+			<nav aria-label="Pagination" th:if="${amountOfPages gt 1}">
 
 			    <ul class="pagination justify-content-center font-weight-medium">
 
-					<!--
-			        <li class="page-item" th:classappend="${currentPageNumber eq 0} ? 'disabled'">
-            			<a class="page-link svg-icon" th:href="@{searchResults?page={id}(id=${currentPageNumber lt 2 ? 1 : currentPageNumber})}" aria-label="Previous" title="Previous Page" rel="tooltip"><span aria-hidden="true" data-feather="chevrons-left" width="20" height="20"></span></a>
-        			</li>
-  					-->
-  					<li class="page-item" th:classappend="${currentPageNumber eq 0} ? 'disabled'">
+  					<li class="page-item" th:classappend="${currentPageNumber eq 1} ? 'disabled'">
             			<a class="page-link svg-icon" th:href="@{searchResults?page={id}(id=${currentPageNumber lt 2 ? 1 : currentPageNumber -1})}" aria-label="Previous" title="Previous Page" rel="tooltip">
             			<span aria-hidden="true" width="20" height="20"><i class="fa fa-chevron-left"></i></span></a>
         			</li>
   					
-			        <li class="page-item" th:classappend="${i eq currentPageNumbe1 } ? 'active'"
-            			th:each="i : ${#numbers.sequence( currentPageNumber, amountOfPages > 10 + currentPageNumber ? currentPageNumber + 10 : amountOfPages, 1)}">
+			        <li class="page-item" th:classappend="${i eq currentPageNumber } ? 'active'"
+            			th:each="i : ${#numbers.sequence(amountOfPages < 9 + currentPageNumber ?  amountOfPages - 9 : currentPageNumber, amountOfPages > 9 + currentPageNumber ? currentPageNumber + 9 : amountOfPages, 1)}">
             			<a class="page-link" th:href="@{searchResults?page={id}(id=${i})}" th:text="${i}"
                			th:title="${'Page '+ i}"
                			rel="tooltip"></a>
         			</li>
 
-			        <li class="page-item disabled" th:if="${currentPageNumber + 10 < amountOfPages}">
+			        <li class="page-item disabled" th:if="${currentPageNumber + 9 < amountOfPages}">
             			<a class="page-link svg-icon" href="#">
-                			<span data-feather="more-horizontal" width="20" height="20"></span>
-            			</a>
+            			<span width="20" height="20"><i class="fa fa-ellipsis-h"></i></span></a>
         			</li>
 
 			        <li class="page-item" th:classappend="${currentPageNumber eq amountOfPages} ? 'disabled'">
-			            <a class="page-link svg-icon" th:href="@{searchResults?page={id}(id=${currentPageNumber + 1})}"
-               			aria-label="Next"
-               			title="Next Page" rel="tooltip">
-			                <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20"></span>
+			            <a class="page-link svg-icon" th:href="@{searchResults?page={id}(id=${currentPageNumber + 1})}" aria-label="Next" title="Next Page" rel="tooltip">
+			                <span aria-hidden="true" width="20" height="20"><i class="fa fa-chevron-right"></i></span>
 			            </a>
         			</li>
     			</ul>
