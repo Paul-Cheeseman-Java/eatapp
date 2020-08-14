@@ -1,4 +1,5 @@
 
+
 #empty-list-msg{
 	text-align: center;
 	margin-top: 2em;
@@ -80,3 +81,11 @@ table{
 	background: rgba(255,255,255,0.25);
 }
 
+#footer{
+	padding: 15px;
+	font-size: 10px;
+}
+
+#footer .credits{
+	font-size: 10px;
+}

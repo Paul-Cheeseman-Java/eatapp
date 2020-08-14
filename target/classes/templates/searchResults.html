@@ -92,7 +92,7 @@
             </form>
 
 
-			<nav aria-label="Pagination" th:if="${amountOfPages gt 1}">
+			<nav class="pagination-nav" aria-label="Pagination" th:if="${amountOfPages gt 1}">
 
 			    <ul class="pagination justify-content-center font-weight-medium">
 
@@ -113,7 +113,7 @@
             			<span width="20" height="20"><i class="fa fa-ellipsis-h"></i></span></a>
         			</li>
 
-			        <li class="page-item" th:classappend="${currentPageNumber eq amountOfPages} ? 'disabled'">
+			        <li class="page-item" th:classappend="${currentPageNumber gt (amountOfPages -9)} ? 'disabled'">
 			            <a class="page-link svg-icon" th:href="@{searchResults?page={id}(id=${currentPageNumber + 1})}" aria-label="Next" title="Next Page" rel="tooltip">
 			                <span aria-hidden="true" width="20" height="20"><i class="fa fa-chevron-right"></i></span>
 			            </a>
