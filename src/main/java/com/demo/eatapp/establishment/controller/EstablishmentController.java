@@ -34,62 +34,73 @@ public class EstablishmentController {
 	@Autowired
 	private EstablishmentDAO establishmentDAO;
 
-	/*
-	   @GetMapping("/delete")
-	   public void removeFromList(HttpServletRequest request, Principal principal) {
-		   int recievedFhrsID = Integer.parseInt(request.getParameter("id"));
-		   System.out.println("----- Deleting: " + recievedFhrsID + " ----------------");
-		   establishmentDAO.removeFromList(establishmentDAO.getEstablishment(recievedFhrsID, principal.getName()), principal.getName());
-	   }
-		*/
-	
-	
-	/*
-
- 	 /myList - Get, gets stored list and puts in pagination as myListPaginationArray put on modal for subsequent calls (for different page of results)
-	 /mylist - Post, saves to stored list
-
-	 
- 	 /search - Gets list from API, paginates into searchResultsPaginationArray, put on model for searchResults
-	
-	 /searchResults - Gets pageArray and displays first page
-	   				- Any paginaion  
-   	 /searchResults - Post, 
-	  	 
-	 */
 	
 	   @GetMapping(value = "/myList")
 	   public String getList(Model model, Principal principal, HttpServletRequest requestForParams) {
 		   System.out.println("In Get");
 
-			//model.addAttribute("pagesArray", pagesArray);		
-			//model.addAttribute("establishments", estListToSend);
+		   pagesArray.clear();
 		   
-		   
-			int reuestedPage = 9999;
-			//If requested with page
-			/*
+			int requestedPage;
 			if (requestForParams.getParameterMap().containsKey("page")){
-				reuestedPage = Integer.parseInt(requestForParams.getParameter("page"));
-				System.out.println("Page Num: " +reuestedPage);
-				
-				//model.getAttribute("pagesArray", pagesArray);		
-				//model.addAttribute("establishments", estListToSend);
-				
-				
-				
+				requestedPage = Integer.parseInt(requestForParams.getParameter("page"));
+				System.out.println("Page Num: " +requestedPage);
 			} else {
-				   Establishments est = new Establishments();
-					est.setEstablishments(establishmentDAO.getList(principal.getName()));				
+				requestedPage = 1;
 			}
-		   */
-		   
-		   Establishments est = new Establishments();
+
+			Establishments est = new Establishments();
 			est.setEstablishments(establishmentDAO.getList(principal.getName()));				
-			model.addAttribute("establishments", est);
+			
+			//Set selected ticks for user
+			for(Establishment e : est.getEstablishments()) {
+				if(establishmentDAO.inUsersList(e, principal.getName())) {
+					e.setSelected(true);
+				}
+			}
+
+			
+			//Amount of rows in table per page
+			int amntOfRows = 8;
+			int amtPagesQuotient = est.getEstablishments().size()/amntOfRows;				 
+			int amtPagesRemainder = est.getEstablishments().size()%amntOfRows;
+			//Catch 'remainder' pages and also increment for results sets below the amount of rows level
+			if (amtPagesRemainder > 0 || (amtPagesQuotient == 0 && amtPagesRemainder > 0)) {
+				amtPagesQuotient += 1;
+			}
+			
+			for (int i=0; i < amtPagesQuotient; i++) {
+				int pageStart = i * amntOfRows; 
+				int pageEnd = (i * amntOfRows) +  (amntOfRows); 
+				//To ensure that the last page of establishments is the correct size
+				if (pageEnd > est.getEstablishments().size()) {
+					pageEnd = est.getEstablishments().size();
+				}
+				
+				//https://stackoverflow.com/questions/16644811/converting-a-sublist-of-an-arraylist-to-an-arraylist
+				 List<Establishment> pageListing = new ArrayList<Establishment>(est.getEstablishments().subList(pageStart, pageEnd));
+				 Establishments pageEst = new Establishments();
+				 pageEst.setEstablishmentList(pageListing);
+				 pagesArray.add(pageEst);
+			}
+			
+			model.addAttribute("amountOfPages", pagesArray.size());
+			model.addAttribute("establishments", pagesArray.get(0));
+			model.addAttribute("currentPageNumber", requestedPage);
 			model.addAttribute("pageTitle", "Your List");
 		   return "myList";
 	   }
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
 	   
 	   
 	   
@@ -102,8 +113,9 @@ public class EstablishmentController {
 			   
 		   //Get current list, if item in list, is it now not selected? If so remove
 		   //If item not in list and now selected, put it in
-			   System.out.println("In for loop, establishment: " +est.getName());
-			   System.out.println("In for loop, rating date: " +est.getRatingDate());
+			   //System.out.println("In for loop, establishment: " +est.getName());
+			   //System.out.println("In for loop, rating date: " +est.getRatingDate());
+			   System.out.println("In for loop, type: " +est.getType() +"*");
 			   if(establishmentDAO.inUsersList(est, principal.getName())) {
 				   System.out.println("In list");
 				   if(!est.isSelected()) {
@@ -246,7 +258,7 @@ public class EstablishmentController {
 			model.addAttribute("amountOfPages", pagesArray.size());			
 			model.addAttribute("currentPageNumber", pageNum);
 			model.addAttribute("establishments", pagesArray.get(pageNum -1));
-			model.addAttribute("pageTitle", "Search Results - Needs sorting");
+			model.addAttribute("pageTitle", "Search Results");
 			
 			return "searchResults";
 	   }
