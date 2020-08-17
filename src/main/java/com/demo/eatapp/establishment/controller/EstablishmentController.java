@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -23,10 +24,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.demo.eatapp.establishment.dao.EstablishmentDAO;
 import com.demo.eatapp.establishment.model.Establishment;
 import com.demo.eatapp.establishments.model.Establishments;
+import com.demo.eatapp.establishments.model.Pagination;
 
 @Controller
 public class EstablishmentController {
@@ -44,7 +47,7 @@ public class EstablishmentController {
 			int requestedPage;
 			if (requestForParams.getParameterMap().containsKey("page")){
 				requestedPage = Integer.parseInt(requestForParams.getParameter("page"));
-				System.out.println("Page Num: " +requestedPage);
+				//System.out.println("Page Num: " +requestedPage);
 			} else {
 				requestedPage = 1;
 			}
@@ -84,64 +87,44 @@ public class EstablishmentController {
 				 pagesArray.add(pageEst);
 			}
 			
+			System.out.println("Debug - pagesArray.size(): " +pagesArray.size());
+			
 			model.addAttribute("amountOfPages", pagesArray.size());
-			model.addAttribute("establishments", pagesArray.get(0));
+			model.addAttribute("establishments", pagesArray.get(requestedPage -1));
 			model.addAttribute("currentPageNumber", requestedPage);
 			model.addAttribute("pageTitle", "Your List");
 		   return "myList";
 	   }
 	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
+
 	   @PostMapping(value = "/myList")
-	   public String postList(@ModelAttribute("establishments") Establishments establishments, Model model, Principal principal) {
+	   public ModelAndView postList(@ModelAttribute("establishments") Establishments establishments, Model model, Principal principal, HttpServletRequest requestForParams) {
+
 		   System.out.println("Hit post");
 		   
+			   System.out.println("Hit post");
 
-		   for (Establishment est : establishments.getEstablishments()) {
-			   
-		   //Get current list, if item in list, is it now not selected? If so remove
-		   //If item not in list and now selected, put it in
-			   //System.out.println("In for loop, establishment: " +est.getName());
-			   //System.out.println("In for loop, rating date: " +est.getRatingDate());
-			   System.out.println("In for loop, type: " +est.getType() +"*");
-			   if(establishmentDAO.inUsersList(est, principal.getName())) {
-				   System.out.println("In list");
-				   if(!est.isSelected()) {
-					   System.out.println("In list but not selected");
-					   establishmentDAO.removeFromList(est, principal.getName());
+			   Iterator<Establishment> estabIterator = establishments.getEstablishmentList().iterator();
+			   while (estabIterator.hasNext()) {
+				   Establishment iteratorItem = estabIterator.next();
+				   
+				   if(establishmentDAO.inUsersList(iteratorItem, principal.getName())) {
+					   if(!iteratorItem.isSelected()) {
+						   System.out.println("In list but not selected - Removing: " +iteratorItem.getName());
+						   establishmentDAO.removeFromList(iteratorItem, principal.getName());
+						   estabIterator.remove();
+					   }
 				   }
-			   } else if (est.isSelected()) {
-				System.out.println("Not in list, new addition");
-				establishmentDAO.addToList(est, principal.getName());
-			   }
-		   }
-		   
-			Establishments est = new Establishments();
-			est.setEstablishments(establishmentDAO.getList(principal.getName()));
-			model.addAttribute("establishments", est);
-			model.addAttribute("pageTitle", "Your List");
+				}
 
-			
-			
-			for (Establishment e : est.getEstablishmentList()) {
-				   System.out.println("List POST: " +e.getName());
-			}
-		
-		   return "myList";
+			ModelAndView modelAndView = new ModelAndView("redirect:/myList");
+			model.addAttribute("pageTitle", "Your List");
+			return modelAndView;
 	   }
 	
+	   
+	   
+	   
 
 	   @GetMapping(value = "/search")
 	   public String getHomepage(Model model) {
@@ -224,11 +207,15 @@ public class EstablishmentController {
 				
 				//https://stackoverflow.com/questions/16644811/converting-a-sublist-of-an-arraylist-to-an-arraylist
 				 List<Establishment> pageListing = new ArrayList<Establishment>(est.getEstablishments().subList(pageStart, pageEnd));
+			
+				 //USE CONSTRUCTOR
 				 Establishments pageEst = new Establishments();
 				 pageEst.setEstablishmentList(pageListing);
 				 pagesArray.add(pageEst);
 			}
+		
 			
+			//Establishments object being passed have value
 			model.addAttribute("amountOfPages", pagesArray.size());
 			model.addAttribute("establishments", pagesArray.get(0));
 			model.addAttribute("currentPageNumber", 1);
@@ -242,7 +229,7 @@ public class EstablishmentController {
 	   
 	   @GetMapping(value = "/searchResults")
 	   public String getSearchResults(Model model, Principal principal, HttpServletRequest requestForParams) {
-	
+		   
 		   System.out.println("In SearchResult Get");
 		   
 		   List<Establishment> pageOfEstablishments = new ArrayList<Establishment>();
@@ -255,6 +242,9 @@ public class EstablishmentController {
 					pageNum = requestedPage;
 				}
 			}
+			
+			Establishments.getPagination().setCurrentPageNumber(pageNum);
+			
 			model.addAttribute("amountOfPages", pagesArray.size());			
 			model.addAttribute("currentPageNumber", pageNum);
 			model.addAttribute("establishments", pagesArray.get(pageNum -1));
@@ -262,6 +252,35 @@ public class EstablishmentController {
 			
 			return "searchResults";
 	   }
+	   
+
+	   @PostMapping(value = "/searchResults")
+	   public ModelAndView postSearchResults(@ModelAttribute("establishments") Establishments establishments, Model model, Principal principal, HttpServletRequest requestForParams) {
+
+		   System.out.println("Hit post");
+
+		   Iterator<Establishment> estabIterator = establishments.getEstablishmentList().iterator();
+		   while (estabIterator.hasNext()) {
+			   Establishment iteratorItem = estabIterator.next();
+			   if(iteratorItem.isSelected() && !establishmentDAO.inUsersList(iteratorItem, principal.getName())) {
+				   System.out.println("New Entry....: " +iteratorItem.getName());
+				   establishmentDAO.addToList(iteratorItem, principal.getName());
+			   }
+			}
+		   
+			ModelAndView modelAndView = new ModelAndView("redirect:/myList");
+			model.addAttribute("pageTitle", "Your List");
+			return modelAndView;
+	   }
+
+	   
+	   
+	   
+	   //searchResults POST
+	   //myList (when no pagination displayed, then save)
+	   
+	   
+	   
 	   
 	   
 	   
