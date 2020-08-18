@@ -84,8 +84,16 @@ public class EstablishmentController {
 			
 			System.out.println("Debug - pagesArray.size(): " +pagesArray.size());
 			
+			//If last element in pagesArray is removed, then need to send an empty List<Establishment>
+			//otherwise it will fail as nothing there to reference!
+			if (pagesArray.isEmpty()){
+				Establishments emptyist = new Establishments(new ArrayList<Establishment>());
+				model.addAttribute("establishments", emptyist);
+			} else {
+				model.addAttribute("establishments", pagesArray.get(requestedPage -1));
+			}
+
 			model.addAttribute("amountOfPages", pagesArray.size());
-			model.addAttribute("establishments", pagesArray.get(requestedPage -1));
 			model.addAttribute("currentPageNumber", requestedPage);
 		   return "myList";
 	   }
