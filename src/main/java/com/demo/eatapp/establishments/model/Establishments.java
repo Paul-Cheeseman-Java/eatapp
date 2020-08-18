@@ -8,20 +8,13 @@ public class Establishments {
 
 	private List<Establishment> establishmentList; 
 
-	private static Pagination pagination = new Pagination();
 	
 	public Establishments() {
 
 	}
 	
-	
 	public Establishments(List<Establishment> establishmentList) {
 		this.establishmentList = establishmentList;
-	}
-
-	
-	public static Pagination getPagination() {
-		return pagination;
 	}
 
 

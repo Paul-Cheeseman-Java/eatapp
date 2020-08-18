@@ -38,7 +38,7 @@ public class EstablishmentAPIController {
 		
 		if(user==null)
 	
-			throw new UserNotFoundException("username-"+ username);
+			throw new UserNotFoundException("username not found"+ username);
 		else {
 		
 		

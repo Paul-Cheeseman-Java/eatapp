@@ -3,16 +3,12 @@ package com.demo.eatapp.establishment.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.demo.eatapp.establishment.dao.EstablishmentDAO;
 import com.demo.eatapp.establishment.model.Establishment;
 import com.demo.eatapp.establishments.model.Establishments;
-import com.demo.eatapp.establishments.model.Pagination;
 
 @Controller
 public class EstablishmentController {
@@ -92,7 +87,6 @@ public class EstablishmentController {
 			model.addAttribute("amountOfPages", pagesArray.size());
 			model.addAttribute("establishments", pagesArray.get(requestedPage -1));
 			model.addAttribute("currentPageNumber", requestedPage);
-			model.addAttribute("pageTitle", "Your List");
 		   return "myList";
 	   }
 	   
@@ -118,7 +112,6 @@ public class EstablishmentController {
 				}
 
 			ModelAndView modelAndView = new ModelAndView("redirect:/myList");
-			model.addAttribute("pageTitle", "Your List");
 			return modelAndView;
 	   }
 	
@@ -165,7 +158,9 @@ public class EstablishmentController {
 			} else if (isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getPostcode())){
 				 url = "https://api.ratings.food.gov.uk/Establishments?address="+establishment.getPostcode();
 			} else {
-				//send error msg
+				establishment.setName("");
+				establishment.setPostcode("");
+				return "search";
 			}
 
 			// make an HTTP GET request with headers
@@ -176,9 +171,17 @@ public class EstablishmentController {
 			        Establishments.class
 			);
 
+			
 			List<Establishment> estList = response.getBody().getEstablishments();
-			Establishments est = new Establishments();
-			est.setEstablishments(estList);
+			
+			if (estList.isEmpty()) {
+				System.out.println("DEBUG: Empty repsonse detected, should go back to search!");
+				model.addAttribute("noResults", true);
+				return "search";
+				
+			} 			
+			
+			Establishments est = new Establishments(estList);
 
 			//Set selected ticks for user
 			for(Establishment e : est.getEstablishments()) {
@@ -208,18 +211,14 @@ public class EstablishmentController {
 				//https://stackoverflow.com/questions/16644811/converting-a-sublist-of-an-arraylist-to-an-arraylist
 				 List<Establishment> pageListing = new ArrayList<Establishment>(est.getEstablishments().subList(pageStart, pageEnd));
 			
-				 //USE CONSTRUCTOR
-				 Establishments pageEst = new Establishments();
-				 pageEst.setEstablishmentList(pageListing);
+				 Establishments pageEst = new Establishments(pageListing);
 				 pagesArray.add(pageEst);
 			}
-		
-			
-			//Establishments object being passed have value
+
+
 			model.addAttribute("amountOfPages", pagesArray.size());
 			model.addAttribute("establishments", pagesArray.get(0));
 			model.addAttribute("currentPageNumber", 1);
-			model.addAttribute("pageTitle", "Search Results");
 			
 		   return "searchResults";
 	   }
@@ -229,12 +228,7 @@ public class EstablishmentController {
 	   
 	   @GetMapping(value = "/searchResults")
 	   public String getSearchResults(Model model, Principal principal, HttpServletRequest requestForParams) {
-		   
-		   System.out.println("In SearchResult Get");
-		   
-		   List<Establishment> pageOfEstablishments = new ArrayList<Establishment>();
 		   int pageNum = 1;
-
 			if (requestForParams.getParameterMap().containsKey("page")){
 				int requestedPage = Integer.parseInt(requestForParams.getParameter("page"));
 				
@@ -242,23 +236,15 @@ public class EstablishmentController {
 					pageNum = requestedPage;
 				}
 			}
-			
-			Establishments.getPagination().setCurrentPageNumber(pageNum);
-			
 			model.addAttribute("amountOfPages", pagesArray.size());			
 			model.addAttribute("currentPageNumber", pageNum);
 			model.addAttribute("establishments", pagesArray.get(pageNum -1));
-			model.addAttribute("pageTitle", "Search Results");
-			
 			return "searchResults";
 	   }
 	   
 
 	   @PostMapping(value = "/searchResults")
 	   public ModelAndView postSearchResults(@ModelAttribute("establishments") Establishments establishments, Model model, Principal principal, HttpServletRequest requestForParams) {
-
-		   System.out.println("Hit post");
-
 		   Iterator<Establishment> estabIterator = establishments.getEstablishmentList().iterator();
 		   while (estabIterator.hasNext()) {
 			   Establishment iteratorItem = estabIterator.next();
@@ -267,17 +253,10 @@ public class EstablishmentController {
 				   establishmentDAO.addToList(iteratorItem, principal.getName());
 			   }
 			}
-		   
 			ModelAndView modelAndView = new ModelAndView("redirect:/myList");
-			model.addAttribute("pageTitle", "Your List");
 			return modelAndView;
 	   }
-
 	   
-	   
-	   
-	   //searchResults POST
-	   //myList (when no pagination displayed, then save)
 	   
 	   
 	   

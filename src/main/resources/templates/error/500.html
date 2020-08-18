@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/components :: head"></div>
+
+<body>
+
+	<div th:replace="fragments/components :: #topbar"></div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo mr-auto">
+        <h1 class="text-light"><a href="index.html"><span>EatApp</span></a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+          <ul>
+              <li class="active"><a href="home">Home</a></li>
+          </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+  <main>
+    <!-- ======= Events Section ======= -->
+    <section id="events-hompage" class="events">
+ 	<div class="container container-full-page">
+
+		<div class="row">
+    		<div class="col-sm-4 my-auto text-center">
+    			<span class="page-error-text">EatApp has encountered an internal problem</span>
+    		</div>
+    		<div class="col-sm-4">
+				 <div><img class="img-fluid" th:src="@{img/error-icon.png}" alt=""></div>
+    		</div>
+    		<div class="col-sm-4 my-auto text-center">
+	            <span class="page-error-text">Please contact support </span>
+    		</div>
+		</div>
+ 	</div>
+ 	</section><!-- End Events Section -->
+ 	</main><!-- End #main -->
+
+
+  <!-- ======= Footer ======= -->
+  <div th:replace="fragments/components :: footer"></div>
+	
+
+</body>
+
+</html>
