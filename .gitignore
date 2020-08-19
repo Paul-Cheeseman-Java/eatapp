@@ -1,5 +1,6 @@
 #Don't send compiled Java files
 *.class
+/target/**
 
 #Don't send Eclipse files
 #https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore

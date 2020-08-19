@@ -16,7 +16,7 @@
 	<description>Demo EatApp project using Spring Boot</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 	</properties>
 
 	<dependencies>
@@ -54,7 +54,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-rest-hal-browser</artifactId>
+			<artifactId>spring-data-rest-hal-explorer</artifactId>
 		</dependency>
 		<dependency>
     		<groupId>org.springframework.boot</groupId>
