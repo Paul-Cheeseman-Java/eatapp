@@ -1,9 +1,28 @@
 
+header{
+	background-color: rgb(120, 120, 120, 0.5);
+}
+
+.events::before{
+	background-color: transparent;
+}
+
+.events{
+	background-color: rgba(12, 11, 10, 0.8);
+}
+
+
 
 #empty-list-msg{
 	text-align: center;
 	margin-top: 2em;
 }
+
+.reg-success-msg{
+	margin-top: 2em;
+	color: white;
+}
+
 
 .formError{
 	font-size: 0.85em;

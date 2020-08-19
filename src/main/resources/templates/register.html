@@ -12,14 +12,15 @@
     <div class="container d-flex align-items-center">
 
       <div class="logo mr-auto">
-        <h1 class="text-light"><a href="index.html"><span>EatApp</span></a></h1>
+        <h1 class="text-light"><a href="home"><span>EatApp</span></a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
 
       <nav class="nav-menu d-none d-lg-block">
           <ul>
-              <li class="active"><a href="home">Home</a></li>
+              <li><a href="home">Home</a></li>
+              <li class="active"><a href="register">Sign Up</a></li>
           </ul>
       </nav><!-- .nav-menu -->
 
@@ -67,7 +68,7 @@
 				<div class="form-row">
     				<div class="form-group col-md-6">
                         <label class="control-label">Age</label>
-						<input type="number" th:field="*{age}" class="form-control col-md-2" placeholder="Age"/>
+						<input type="number" th:field="*{age}" class="form-control col-md-2" placeholder="Age" min="0"/>
 						<div class="formError" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
     				</div>
 				</div>
