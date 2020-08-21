@@ -31,7 +31,7 @@
   <main>
     <!-- ======= Events Section ======= -->
     <section id="events-hompage" class="events">
-      <div class="container full-viewport">
+      <div class="container">
       
             <h1 class="list-title text-center">Search Results</h1>
 
@@ -55,8 +55,8 @@
       					<th scope="col">Selected</th>
       					<th scope="col">Name</th>
       					<th scope="col">Rating</th>
-      					<th scope="col">Postcode</th>
-      					<th scope="col">Phone</th>
+      					<th class="d-none d-sm-table-cell" scope="col">Postcode</th>
+      					<th class="d-none d-sm-table-cell" scope="col">Phone</th>
     					</tr>
   					</thead>
   					<tbody>
@@ -83,8 +83,8 @@
 							<td><input type="checkbox" th:field="*{establishmentList[__${itemStat.index}__].selected}"   th:value="${establishment.fhrsID}"/></td>
 							<td th:text="${establishment.getName()}"></td>
 							<td th:text="${establishment.getRatingValue()}"></td>
-							<td th:text="${establishment.getPostcode()}"></td>  
-							<td th:text="${establishment.getPhone()}"></td>
+							<td class="d-none d-sm-table-cell" th:text="${establishment.getPostcode()}"></td>  
+							<td class="d-none d-sm-table-cell" th:text="${establishment.getPhone()}"></td>
 						</tr>
   					</tbody>
   				</table>

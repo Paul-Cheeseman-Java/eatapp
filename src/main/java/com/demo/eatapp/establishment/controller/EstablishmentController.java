@@ -32,11 +32,20 @@ public class EstablishmentController {
 	@Autowired
 	private EstablishmentDAO establishmentDAO;
 
+
+
+	   @GetMapping(value = "/search")
+	   public String getHomepage(Model model) {
+		   model.addAttribute("establishment", new Establishment());
+		   return "search";
+	   }
+
+	
 	
 	   @GetMapping(value = "/myList")
 	   public String getList(Model model, Principal principal, HttpServletRequest requestForParams) {
 		   System.out.println("In Get");
-
+		   
 		   pagesArray.clear();
 		   
 			int requestedPage;
@@ -125,14 +134,7 @@ public class EstablishmentController {
 	   }
 	
 	   
-	   
-	   
-
-	   @GetMapping(value = "/search")
-	   public String getHomepage(Model model) {
-		   model.addAttribute("establishment", new Establishment());
-		   return "search";
-	   }
+   
 
 
 	   //Utility method to validate user input

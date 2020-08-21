@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.demo.eatapp.establishment.dao.EstablishmentDAO;
 import com.demo.eatapp.establishments.model.Establishments;
 import com.demo.eatapp.user.dao.UserDAO;
 import com.demo.eatapp.user.model.User;
 
+@SessionAttributes("deviceSize")
 @Controller
 public class AccessController {
 
@@ -59,9 +61,9 @@ public class AccessController {
 
 		}
 
-		
+
 		@GetMapping(value = "/login")
-		    public String login(Model model) {
+		    public String login(Model model, HttpServletRequest httpServletRequest ) {
 				model.addAttribute("user", new User());
 		        return "login";
 		    }
