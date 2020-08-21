@@ -50,6 +50,7 @@
 						<button type="submit" class="btn btn-primary mb-2">Submit</button>
 				</form>
 				<div class="formError text-center" th:if="${noResults}">No results for that search</div>
+				<div class="formError text-center" th:if="${tooManyResults}">Too many results, please refine your search</div>
 			</div>
 		</section>
 		<!-- End Events Section -->

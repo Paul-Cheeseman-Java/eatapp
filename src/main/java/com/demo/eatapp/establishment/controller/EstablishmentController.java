@@ -189,8 +189,11 @@ public class EstablishmentController {
 				System.out.println("DEBUG: Empty repsonse detected, should go back to search!");
 				model.addAttribute("noResults", true);
 				return "search";
-				
-			} 			
+			} else if (estList.size() > 40) {
+				System.out.println("Too many results, should be flagged");
+				model.addAttribute("tooManyResults", true);
+				return "search";
+			}			
 			
 			Establishments est = new Establishments(estList);
 
