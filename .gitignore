@@ -1,5 +1,6 @@
 #Don't send compiled Java files
 *.class
+*.properties
 /target/**
 
 #Don't send Eclipse files
