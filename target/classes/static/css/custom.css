@@ -1,4 +1,15 @@
 
+.mobile-nav{
+	height: 250px;
+	text-align: right;
+}
+
+.mobile-nav .book-a-table a{
+	background: white;
+	color: #433f39;
+}
+
+
 header{
 	background-color: rgb(120, 120, 120, 0.5);
 }
