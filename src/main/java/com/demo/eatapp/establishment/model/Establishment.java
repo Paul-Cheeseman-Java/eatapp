@@ -178,6 +178,11 @@ public class Establishment extends RepresentationModel<Establishment>{
 
 
 	public String getRatingDate() {
+		if (ratingDate.contains("T00:00:00")) {
+			String[] ratingDateOnly = ratingDate.split("T");
+			String dateOnly = ratingDateOnly[0]; // 004
+			return dateOnly;			
+		}
 		return ratingDate;
 	}
 

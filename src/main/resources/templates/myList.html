@@ -54,7 +54,7 @@
       					<th scope="col">Name</th>
       					<th scope="col">Rating</th>
       					<th scope="col" class="d-none d-sm-table-cell">Postcode</th>
-      					<th scope="col" class="d-none d-sm-table-cell">Phone</th>
+      					<th scope="col" class="d-none d-sm-table-cell">Date</th>
     					</tr>
   					</thead>
   					<tbody>
@@ -82,7 +82,7 @@
 							<td th:text="${establishment.getName()}"></td>
 							<td th:text="${establishment.getRatingValue()}"></td>
 							<td class="d-none d-sm-table-cell" th:text="${establishment.getPostcode()}"></td>  
-							<td class="d-none d-sm-table-cell" th:text="${establishment.getPhone()}"></td>
+							<td class="d-none d-sm-table-cell" th:text="${establishment.getRatingDate()}"></td>
 						</tr>
   					</tbody>
   				</table>
