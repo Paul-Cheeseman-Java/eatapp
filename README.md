@@ -1,3 +1,4 @@
+# EATAPP
 
 ## General info
 This is a demo project to help me develop my web development skills. It is a website that consumes data via a REST API, allows users to store data they select, and then uses the stored data to provide its own HATEOAS based REST API. 
