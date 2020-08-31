@@ -44,9 +44,9 @@
 
 				<form class="form-inline justify-content-center" th:action="@{/search}"
 					th:object="${establishment}" method="post">
-						<input type="text" class="form-control mb-2 mr-sm-2  col-md-6" th:field="*{name}" placeholder="Establishment Name">
+						<input type="text" class="form-control mb-2 mr-sm-2  col-md-4" th:field="*{name}" placeholder="Establishment Name">
 						<div> and/or &nbsp; </div>
-  						<input type="text" class="form-control mb-2 mr-sm-2  col-md-2" th:field="*{postcode}" placeholder="Postcode">
+  						<input type="text" class="form-control mb-2 mr-sm-2  col-md-4" th:field="*{postcode}" placeholder="Street, town or postcode">
 						<button type="submit" class="btn btn-primary mb-2">Submit</button>
 				</form>
 				<div class="formError text-center" th:if="${noResults}">No results for that search</div>

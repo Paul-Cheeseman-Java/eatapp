@@ -162,6 +162,13 @@ public class EstablishmentController {
 			// build the request\
 			HttpEntity request = new HttpEntity(headers);
 			String url = "";
+			
+			/*
+			 * Hacky to use the postcode field it is (for interaction between form and API call), ie for any address entry
+			 * Ideally find and implement a cleaner solution.
+			 */
+			
+			
 			if (isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getName()) && isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getPostcode())) {
 				 url = "https://api.ratings.food.gov.uk/Establishments?name=" + establishment.getName() + "&address="+establishment.getPostcode();
 			} else if (isNotNullNotEmptyNotOnlyWhiteSpace(establishment.getName())){
