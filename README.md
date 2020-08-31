@@ -12,8 +12,10 @@ Eatapp enables users to find out, and store, the Food Standards Agency (FSA) hyg
 EatApp can be found on Heroku via this link:  [EatApp](https://demo-eatapp.herokuapp.com/)
 _It make take a little time to start/respond as its on a basic hosting plan_
 
-You can either register as a user (users need to be 16+) or use the test account which has a username _Test_ and password of _T3s7ing#_.
+You can either register as a user (users need to be 16+) or use the test account which has a username _TestUser_ and password of _T3s7ing#_.
  
+  Test users _TestUserA_ and _TestUserB_ has been created to as part of the demo for API calls.
+
 #### Features
 - The site is themed and device responsive.
 - It consumes data from the FSA API so the search results are always up to date.
