@@ -1,13 +1,13 @@
 
 ## General info
-This is a demo project to help me develop my web development skills. It is a website that consumes data via a REST API, allows users to store data they select, and then uses that data stored to provide its own HATEOAS based REST API. 
+This is a demo project to help me develop my web development skills. It is a website that consumes data via a REST API, allows users to store data they select, and then uses the stored data to provide its own HATEOAS based REST API. 
 
 ### Application
-Eatapp enables users to find out, and store, the Food Standards Agency (FSA) hygiene ratings consumed using the  [Food Standards Agency (FSA) hygiene ratings API](https://www.food.gov.uk/uk-food-hygiene-rating-data-api).
+Eatapp enables users to find out, and store, the Food Standards Agency (FSA) hygiene ratings consumed using the  [Food Standards Agency (FSA) hygiene ratings API](https://www.food.gov.uk/uk-food-hygiene-rating-data-api). EatApp also has an API which can be interogated to find information about EatApp users and the establishments they have stored. 
 
 **Please Note:** 
-1) The amount of results returned have been limited by EatApp to 40. This is to reduce the risk of the data plan for the EatApp database being exceed by one very large/general search.  
-2) Unfortunately the FSA website can return strange results, so any searches performed on EatApp can be verified using the [FSA hygiene ratings search](https://ratings.food.gov.uk/) on the FSA site. That way its clear that EatApp is working fine, it's just responding with the information provided by the FSA API :-)
+1) Unfortunately the FSA website can sometimes return strange results, so any searches performed on EatApp can be verified using the search [FSA hygiene ratings search](https://ratings.food.gov.uk/) on the actual FSA site. That way it can be confirmed that EatApp is working fine, it's just responding with the ~~dodgey~~ information provided by the FSA API :-)
+2) The amount of search results returned have been limited by EatApp to 40. This is to reduce the risk of the data plan for the EatApp database being exceed by one very, or a few, large/general search(es).  
 
 EatApp can be found on Heroku via this link:  [EatApp](https://demo-eatapp.herokuapp.com/)
 
