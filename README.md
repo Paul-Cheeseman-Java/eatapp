@@ -6,16 +6,18 @@ This is a demo project to help me develop my web development skills. It is a web
 ### Application
 Eatapp enables users to find out, and store, the Food Standards Agency (FSA) hygiene ratings consumed using the  [Food Standards Agency (FSA) hygiene ratings API](https://www.food.gov.uk/uk-food-hygiene-rating-data-api). EatApp also has an API which can be interrogated to find information about EatApp users and the establishments they have stored. 
 
-**Please Note:** 
-1) Unfortunately the FSA website can sometimes return strange results, so any searches performed on EatApp can be verified using the search [FSA hygiene ratings search](https://ratings.food.gov.uk/) on the actual FSA site. That way it can be confirmed that EatApp is working fine, it's just the using the ~~dodgy~~ information provided by the FSA API :-)
-2) The amount of search results returned have been limited by EatApp to 40. This is to reduce the risk of the data plan for the EatApp database being exceed by one very, or a few, large/general search(es).  
-
-EatApp can be found on Heroku via this link:  [EatApp](https://demo-eatapp.herokuapp.com/)
-_It make take a little time to start/respond as its on a basic hosting plan_
+**EatApp can be found on Heroku via this link:**  [EatApp](https://demo-eatapp.herokuapp.com/)<br />
+_It may take a little time to start/respond as its on a basic hosting plan_
 
 You can either register as a user (users need to be 16+) or use the test account which has a username _TestUser_ and password of _T3s7ing#_.
  
   Test users _TestUserA_ and _TestUserB_ has been created to as part of the demo for API calls.
+
+
+
+**Please Note:** 
+1) Unfortunately the FSA website can sometimes return strange results, so any searches performed on EatApp can be verified using the search [FSA hygiene ratings search](https://ratings.food.gov.uk/) on the actual FSA site. That way it can be confirmed that EatApp is working fine, it's just the using the ~~dodgy~~ information provided by the FSA API :-)
+2) The amount of search results returned have been limited by EatApp to 40. This is to reduce the risk of the data plan for the EatApp database being exceed by one very, or a few, large/general search(es).  
 
 #### Features
 - The site is themed and device responsive.
