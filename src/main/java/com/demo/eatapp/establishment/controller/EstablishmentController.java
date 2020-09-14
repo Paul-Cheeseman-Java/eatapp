@@ -204,10 +204,42 @@ public class EstablishmentController {
 			
 			Establishments est = new Establishments(estList);
 
-			//Set selected ticks for user
 			for(Establishment e : est.getEstablishments()) {
+				//Set selected ticks for user
 				if(establishmentDAO.inUsersList(e, principal.getName())) {
 					e.setSelected(true);
+				}
+				//Protecting app against dodgey FSA API value lengths...
+				//DB fields already big, but this is a belt and braces
+				if (e.getFhrsID().length() > 120) {
+					e.setFhrsID(e.getFhrsID().substring(0,119));
+				}
+				if (e.getName().length() > 120) {
+					e.setName(e.getName().substring(0,119));
+				}
+				if (e.getType().length() > 135) {
+					e.setType(e.getType().substring(0,134));
+				}
+				if (e.getTypeID().length() > 20) {
+					e.setTypeID(e.getTypeID().substring(0,19));
+				}
+				if (e.getAddressLine1().length() > 90) {
+					e.setAddressLine1(e.getAddressLine1().substring(0,89));
+				}
+				if (e.getAddressLine2().length() > 90) {
+					e.setAddressLine2(e.getAddressLine2().substring(0,89));
+				}
+				if (e.getAddressLine3().length() > 90) {
+					e.setAddressLine3(e.getAddressLine3().substring(0,89));
+				}
+				if (e.getAddressLine4().length() > 90) {
+					e.setAddressLine4(e.getAddressLine4().substring(0,89));
+				}
+				if (e.getPostcode().length() > 8) {
+					e.setPostcode(e.getPostcode().substring(0,7));
+				}
+				if (e.getRatingValue().length() > 30) {
+					e.setRatingValue(e.getRatingValue().substring(0,29));
 				}
 			}
 

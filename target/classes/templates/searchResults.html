@@ -77,10 +77,7 @@
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].postcode'"  th:value="${establishment.postcode}"/>
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].phone'"  th:value="${establishment.phone}"/>
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].ratingValue'"  th:value="${establishment.ratingValue}"/>
-
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].ratingDate'"  th:value="${establishment.ratingDate}"/>
-
-
 
 							<td><input type="checkbox" th:field="*{establishmentList[__${itemStat.index}__].selected}"   th:value="${establishment.fhrsID}"/></td>
 							<td th:text="${establishment.getName()}"></td>
