@@ -1,4 +1,21 @@
 
+/*
+html, body {
+  height: 100%;
+  margin: 0;
+}
+*/
+
+#events-hompage {
+  padding-top: 120px;
+	min-height: 90vh;
+}
+
+main {
+  height: 100%;
+  background: url(../img/events-bg.jpg) center center no-repeat;
+  background-size: cover;
+}
 
 .mobile-nav{
 	height: 250px;
@@ -74,14 +91,6 @@ header{
 	color: #ffb03b;
 }
 
-
-.full-viewport{
-	height: 100vh;
-}
-
-#events-hompage {
-  padding-top: 120px;
-}
 
 
 form{

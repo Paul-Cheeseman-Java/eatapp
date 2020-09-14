@@ -936,10 +936,12 @@ main {
 }
 */
 
+/*
 main {
   background: url(../img/events-bg.jpg) center center no-repeat;
   background-size: cover;
 }
+*/
 
 
 .events::before {
