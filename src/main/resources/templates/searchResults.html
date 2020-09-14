@@ -39,25 +39,17 @@
             <h1 class="list-title text-center">Search Results</h1>
 
 
-
-
            <form th:action="@{/searchResults}" th:object="${establishments}"  method="post">
            
-            <div id="empty-list-msg" th:if="*{establishmentList.isEmpty()}">
-  				<h1>You have an empty list!</h1>
- 			</div>
-
-			<div th:unless="*{establishmentList.isEmpty()}">
-           
-           
-           
                 <button type="submit" class="btn btn-primary">Save</button>
+                
   				<table class="table">
   					<thead>
     					<tr>
       					<th scope="col">Selected</th>
       					<th scope="col">Name</th>
       					<th scope="col">Rating</th>
+      					<th class="d-none d-sm-table-cell" scope="col">PostCode</th>
       					<th class="d-none d-sm-table-cell" scope="col">Date</th>
     					</tr>
   					</thead>
@@ -66,8 +58,6 @@
 						<tr th:each="establishment, itemStat : *{establishmentList}">
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].fhrsID'"  th:value="${establishment.fhrsID}"/>
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].name'"  th:value="${establishment.name}"/>
-
-
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].type'"  th:value="${establishment.type}"/>
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].typeID'"  th:value="${establishment.typeID}"/>
 							<input type="hidden" th:attr="name='establishmentList[' + ${itemStat.index} +'].addressLine1'"  th:value="${establishment.addressLine1}"/>
@@ -82,13 +72,12 @@
 							<td><input type="checkbox" th:field="*{establishmentList[__${itemStat.index}__].selected}"   th:value="${establishment.fhrsID}"/></td>
 							<td th:text="${establishment.getName()}"></td>
 							<td th:text="${establishment.getRatingValue()}"></td>
+							<td class="d-none d-sm-table-cell" th:text="${establishment.getPostcode()}"></td>
 							<td class="d-none d-sm-table-cell" th:text="${establishment.getRatingDate()}"></td>
 						</tr>
   					</tbody>
   				</table>
-            </div>
             </form>
-
 
 			<nav class="pagination-nav" aria-label="Pagination" th:if="${amountOfPages gt 1}">
 
@@ -119,7 +108,7 @@
         			</li>
     			</ul>
 			</nav>
-
+			<p id="odd-results-text"> Unfortunately the FSA search can produce odd results, you can validate EatApp is correctly passing the information supplied by using the same search criteria <a target="_blank" href="https://ratings.food.gov.uk/enhanced-search/">on the FSA site search</a></p>
 
 
 		</div>

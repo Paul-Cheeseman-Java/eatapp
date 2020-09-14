@@ -6,6 +6,12 @@ html, body {
 }
 */
 
+#odd-results-text{
+	color: white;
+	font-size: 0.75em;
+	font-style: italic;
+}
+
 #events-hompage {
   padding-top: 120px;
 	min-height: 90vh;
@@ -89,6 +95,7 @@ header{
 .list-title
 {
 	color: #ffb03b;
+	margin-top: 0.5em;
 }
 
 
