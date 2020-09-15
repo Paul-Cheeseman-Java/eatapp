@@ -30,7 +30,7 @@ You can either register as a user (users need to be 16+) or use the test account
 
 
 **EatApp API**  
-The API provided by EatApp can be accessed by appending the following to the main URL demo-eatapp.herokuapp.com
+The API provided by EatApp can be accessed by appending the following to the main URL [demo-eatapp.herokuapp.com](https://demo-eatapp.herokuapp.com/)
 
 _/users_ - Returns a list of all of the applications user details. 
     It also provides HATEOAS links for:
