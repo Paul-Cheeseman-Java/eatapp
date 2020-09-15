@@ -1,3 +1,4 @@
+
 # EATAPP
 
 ## General info
@@ -29,20 +30,20 @@ You can either register as a user (users need to be 16+) or use the test account
 
 
 **EatApp API**  
-The API provided by EatApp supports the following calls:
+The API provided by EatApp can be accessed by appending the following to the main URL demo-eatapp.herokuapp.com
 
-_/eatapp/users_ - A _GET_ request which returns a list of all of the applications user ids. 
-    It provides HATEOAS links for:
+_/users_ - Returns a list of all of the applications user details. 
+    It also provides HATEOAS links for:
         - user details. 
         - users establishment list.
             
-_/eatapp/user/{user-id}_ - A _GET_ request which returns specific users details. 
-    It provides HATEOAS links for:
+_/user/{username}_ - Returns specific users details. 
+    It also provides HATEOAS links for:
         - returning all users
         - returning specific users establishment list. 
 
-_/eatapp/establishments/{user-id}_ - A _GET_ request which returns a users establishment list. 
-    It provides HATEOAS links for:
+_/establishments/{username}_ - Returns a users establishments list. 
+    It also provides HATEOAS links for:
         - listing specific user details. 
         - returning specific establishment details. 
 
